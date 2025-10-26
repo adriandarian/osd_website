@@ -6,6 +6,15 @@ Complete rewrite and modernization of the OpenSeadragon website (currently at op
 
 ## Plan Documents
 
+### Phase 0: Project Setup
+
+#### 🔧 [00 - GitHub Project Workflow](./00-github-project-workflow.md)
+- Fork-based development workflow
+- GitHub Project setup and tracking
+- Issue management strategy
+- Pull request templates and process
+- Collaboration with upstream repository
+
 ### Phase 1: Overview & Strategy
 
 #### 📋 [01 - Project Overview](./01-project-overview.md)
