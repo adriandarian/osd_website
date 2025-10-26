@@ -9,15 +9,14 @@ Comprehensive testing strategy to ensure quality, reliability, and maintainabili
 ### Testing Pyramid
 
 ```
-        /\
-       /  \      E2E Tests (Few)
-      /____\     - Critical user flows
-     /      \    - Cross-browser testing
-    /        \   Integration Tests (Some)
-   /          \  - Component interactions
-  /____________\ Unit Tests (Many)
-                 - Functions, composables
-                 - Pure logic
+        /\       E2E Tests (Few)
+       /  \      - Critical user flows
+      /____\     - Cross-browser testing
+     /      \    Integration Tests (Some)
+    /________\   - Component interactions
+   /          \  Unit Tests (Many)
+  /____________\ - Functions, composables
+                 - Pure logic 
 ```
 
 ### Principles
