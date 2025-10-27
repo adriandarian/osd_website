@@ -162,12 +162,13 @@ export default defineNuxtConfig({
     },
   },
 
-  // Nitro configuration for static generation
+  // Nitro configuration
   nitro: {
     preset: 'github-pages',
     prerender: {
       crawlLinks: true,
       routes: ['/'],
+      failOnError: false,
     },
   },
 
@@ -177,6 +178,9 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://openseadragon.github.io',
     },
   },
+
+  // SSR configuration
+  ssr: true,
 
   // Experimental features
   experimental: {
