@@ -29,20 +29,58 @@ export default defineNuxtConfig({
 
   // Nuxt Content configuration
   content: {
-    documentDriven: true,
+    documentDriven: false,
     highlight: {
       theme: {
-        default: 'github-light',
-        dark: 'github-dark',
+        default: 'vitesse-light',
+        dark: 'vitesse-dark',
       },
-      preload: ['js', 'ts', 'json', 'html', 'css', 'vue'],
+      preload: [
+        'js',
+        'javascript',
+        'ts',
+        'typescript',
+        'json',
+        'html',
+        'css',
+        'vue',
+        'vue-html',
+        'bash',
+        'shell',
+        'markdown',
+        'yaml',
+        'xml',
+        'diff',
+      ],
+      langs: [
+        'js',
+        'javascript',
+        'ts',
+        'typescript',
+        'json',
+        'html',
+        'css',
+        'vue',
+        'bash',
+        'shell',
+        'markdown',
+        'yaml',
+        'xml',
+        'diff',
+        'mermaid',
+      ],
     },
     markdown: {
       toc: {
         depth: 3,
         searchDepth: 3,
       },
-      anchorLinks: true,
+      anchorLinks: {
+        depth: 3,
+        exclude: [1],
+      },
+      remarkPlugins: [],
+      rehypePlugins: [],
     },
   },
 
