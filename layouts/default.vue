@@ -2,10 +2,10 @@
   <div class="min-h-screen flex flex-col">
     <!-- Header -->
     <header class="sticky top-0 z-50 w-full backdrop-blur-md vp-header">
-      <div class="container flex h-16 items-center justify-between">
+      <div class="w-full max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div class="flex items-center gap-8">
           <NuxtLink to="/" class="flex items-center space-x-2.5 transition-opacity hover:opacity-80 vp-logo">
-            <Icon name="mdi:anchor" class="h-7 w-7 vp-icon-brand" />
+            <img src="/logo.png" alt="OpenSeadragon" class="h-8 w-8" />
             <span class="text-xl font-bold">OpenSeadragon</span>
           </NuxtLink>
           
