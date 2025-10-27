@@ -17,8 +17,7 @@
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
     "analyze": "nuxt analyze",
-    "prepare": "simple-git-hooks",
-    "favicon": "bun run scripts/create-favicon.js"
+    "prepare": "simple-git-hooks"
   },
   "dependencies": {
     "@nuxt/content": "^2.13.4",

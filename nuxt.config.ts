@@ -1,8 +1,26 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { copyFileSync } from 'fs'
+import { resolve } from 'path'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   
   devtools: { enabled: true },
+
+  // Hooks
+  hooks: {
+    'build:before': () => {
+      // Copy LICENSE.txt to public directory before build
+      const source = resolve('./LICENSE.txt')
+      const destination = resolve('./public/LICENSE.txt')
+      try {
+        copyFileSync(source, destination)
+        console.log('✓ LICENSE.txt copied to public directory')
+      } catch (error) {
+        console.error('⚠ Error copying LICENSE.txt:', error)
+      }
+    },
+  },
 
   // Modules
   modules: [
