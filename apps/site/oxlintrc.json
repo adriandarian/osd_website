@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  }
+}
