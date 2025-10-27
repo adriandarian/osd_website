@@ -1,0 +1,98 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lighthouse:
+    name: Run Lighthouse
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        working-directory: ./apps/site
+        run: bun install --frozen-lockfile
+      
+      - name: Build site
+        working-directory: ./apps/site
+        run: bun run generate
+        env:
+          NUXT_PUBLIC_SITE_URL: https://openseadragon.github.io
+      
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            http://localhost:3000/
+            http://localhost:3000/docs
+            http://localhost:3000/examples
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 3
+          configPath: ./apps/site/.lighthouserc.json
+
+  performance-check:
+    name: Performance Budget Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      
+      - name: Install dependencies
+        working-directory: ./apps/site
+        run: bun install --frozen-lockfile
+      
+      - name: Build site
+        working-directory: ./apps/site
+        run: bun run generate
+      
+      - name: Check bundle size
+        working-directory: ./apps/site
+        run: |
+          echo "📦 Checking bundle sizes..."
+          
+          # Get initial JS bundle size
+          INITIAL_JS=$(find .output/public/_nuxt -name "entry*.js" -exec du -sb {} + | awk '{sum+=$1} END {print sum}')
+          INITIAL_JS_KB=$((INITIAL_JS / 1024))
+          
+          echo "Initial JS bundle: ${INITIAL_JS_KB}KB"
+          
+          # Performance budget: 100KB for initial JS
+          if [ $INITIAL_JS_KB -gt 100 ]; then
+            echo "⚠️  Warning: Initial JS bundle (${INITIAL_JS_KB}KB) exceeds budget (100KB)"
+            echo "::warning::Initial JS bundle size exceeds performance budget"
+          else
+            echo "✅ Initial JS bundle size within budget"
+          fi
+          
+          # Total page weight
+          TOTAL_SIZE=$(du -sb .output/public | awk '{print $1}')
+          TOTAL_SIZE_KB=$((TOTAL_SIZE / 1024))
+          
+          echo "Total build size: ${TOTAL_SIZE_KB}KB"
+          
+          # Create size report
+          echo "## Bundle Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "- Initial JS: ${INITIAL_JS_KB}KB (Budget: 100KB)" >> $GITHUB_STEP_SUMMARY
+          echo "- Total Size: ${TOTAL_SIZE_KB}KB" >> $GITHUB_STEP_SUMMARY

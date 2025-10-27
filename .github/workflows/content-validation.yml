@@ -1,0 +1,102 @@
+name: Content Validation
+
+on:
+  pull_request:
+    paths:
+      - 'apps/site/content/**'
+      - 'apps/site/public/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/site/content/**'
+
+jobs:
+  validate-content:
+    name: Validate Markdown Content
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      
+      - name: Install dependencies
+        working-directory: ./apps/site
+        run: bun install --frozen-lockfile
+      
+      - name: Check markdown files
+        working-directory: ./apps/site
+        run: |
+          echo "Checking for broken markdown syntax..."
+          find content -name "*.md" -type f | while read file; do
+            if ! grep -q "^---" "$file"; then
+              echo "⚠️  Missing frontmatter in: $file"
+            fi
+          done
+      
+      - name: Validate frontmatter
+        working-directory: ./apps/site
+        run: |
+          echo "Validating frontmatter fields..."
+          find content -name "*.md" -type f | while read file; do
+            if ! grep -q "^title:" "$file"; then
+              echo "❌ Missing 'title' in: $file"
+              exit 1
+            fi
+            if ! grep -q "^description:" "$file"; then
+              echo "⚠️  Missing 'description' in: $file"
+            fi
+          done
+      
+      - name: Check for broken internal links
+        working-directory: ./apps/site
+        run: |
+          echo "Checking for potentially broken links..."
+          # This is a basic check - can be enhanced with a proper link checker
+          find content -name "*.md" -type f -exec grep -H "](/[^)]*)" {} \; || true
+
+  check-images:
+    name: Check Image References
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Check image references
+        working-directory: ./apps/site
+        run: |
+          echo "Checking image references..."
+          # Find all image references in markdown
+          find content -name "*.md" -type f | while read file; do
+            grep -o '!\[.*\]([^)]*\.(jpg|jpeg|png|gif|svg|webp|avif))' "$file" | \
+            sed 's/.*(\(.*\))/\1/' | while read img; do
+              # Check if it's a relative path
+              if [[ ! "$img" =~ ^http ]]; then
+                img_path="public/${img#/}"
+                if [ ! -f "$img_path" ]; then
+                  echo "⚠️  Image not found: $img (referenced in $file)"
+                fi
+              fi
+            done
+          done || true
+
+  markdown-lint:
+    name: Markdown Linting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Run markdownlint
+        uses: nosborn/github-action-markdown-cli@v3.3.0
+        with:
+          files: apps/site/content
+          config_file: .markdownlint.json
+        continue-on-error: true
