@@ -21,11 +21,9 @@ jobs:
           bun-version: latest
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Run linter
-        working-directory: ./apps/site
         run: bun run lint
 
   typecheck:
@@ -42,11 +40,9 @@ jobs:
           bun-version: latest
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Run type check
-        working-directory: ./apps/site
         run: bun run typecheck
 
   test:
@@ -63,11 +59,9 @@ jobs:
           bun-version: latest
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Run tests
-        working-directory: ./apps/site
         run: bun run test
 
   build:
@@ -84,17 +78,14 @@ jobs:
           bun-version: latest
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Build site
-        working-directory: ./apps/site
         run: bun run generate
         env:
           NUXT_PUBLIC_SITE_URL: https://openseadragon.github.io
       
       - name: Check bundle size
-        working-directory: ./apps/site
         run: |
           if [ -d ".output/public" ]; then
             echo "Build successful!"

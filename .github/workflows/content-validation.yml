@@ -3,13 +3,13 @@ name: Content Validation
 on:
   pull_request:
     paths:
-      - 'apps/site/content/**'
-      - 'apps/site/public/**'
+      - 'content/**'
+      - 'public/**'
   push:
     branches:
       - main
     paths:
-      - 'apps/site/content/**'
+      - 'content/**'
 
 jobs:
   validate-content:
@@ -26,11 +26,9 @@ jobs:
           bun-version: latest
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Check markdown files
-        working-directory: ./apps/site
         run: |
           echo "Checking for broken markdown syntax..."
           find content -name "*.md" -type f | while read file; do
@@ -40,7 +38,6 @@ jobs:
           done
       
       - name: Validate frontmatter
-        working-directory: ./apps/site
         run: |
           echo "Validating frontmatter fields..."
           find content -name "*.md" -type f | while read file; do
@@ -54,7 +51,6 @@ jobs:
           done
       
       - name: Check for broken internal links
-        working-directory: ./apps/site
         run: |
           echo "Checking for potentially broken links..."
           # This is a basic check - can be enhanced with a proper link checker
@@ -69,7 +65,6 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Check image references
-        working-directory: ./apps/site
         run: |
           echo "Checking image references..."
           # Find all image references in markdown
@@ -97,6 +92,6 @@ jobs:
       - name: Run markdownlint
         uses: nosborn/github-action-markdown-cli@v3.3.0
         with:
-          files: apps/site/content
+          files: content
           config_file: .markdownlint.json
         continue-on-error: true

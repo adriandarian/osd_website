@@ -27,17 +27,14 @@ jobs:
           bun-version: latest
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Update dependencies
-        working-directory: ./apps/site
         run: |
           # Update all dependencies to latest
           bun update
       
       - name: Run tests
-        working-directory: ./apps/site
         run: bun run test
         continue-on-error: true
       

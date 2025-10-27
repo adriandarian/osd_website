@@ -27,14 +27,6 @@ export default defineNuxtConfig({
     },
   },
 
-  // Site configuration for SEO
-  site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://openseadragon.github.io',
-    name: 'OpenSeadragon',
-    description: 'An open-source, web-based viewer for high-resolution zoomable images',
-    defaultLocale: 'en',
-  },
-
   // Nuxt Content configuration
   content: {
     documentDriven: true,
@@ -86,7 +78,7 @@ export default defineNuxtConfig({
   // TypeScript configuration
   typescript: {
     strict: true,
-    typeCheck: true,
+    typeCheck: false, // Disabled to avoid vite-plugin-checker issues, use 'bun run typecheck' instead
     shim: false,
   },
 

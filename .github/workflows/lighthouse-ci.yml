@@ -25,11 +25,9 @@ jobs:
           node-version: '18'
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Build site
-        working-directory: ./apps/site
         run: bun run generate
         env:
           NUXT_PUBLIC_SITE_URL: https://openseadragon.github.io
@@ -44,7 +42,7 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           runs: 3
-          configPath: ./apps/site/.lighthouserc.json
+          configPath: ./.lighthouserc.json
 
   performance-check:
     name: Performance Budget Check
@@ -60,15 +58,12 @@ jobs:
           bun-version: latest
       
       - name: Install dependencies
-        working-directory: ./apps/site
         run: bun install --frozen-lockfile
       
       - name: Build site
-        working-directory: ./apps/site
         run: bun run generate
       
       - name: Check bundle size
-        working-directory: ./apps/site
         run: |
           echo "📦 Checking bundle sizes..."
           
