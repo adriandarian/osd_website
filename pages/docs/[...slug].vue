@@ -1,59 +1,50 @@
 <template>
-  <div class="container py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      <!-- Sidebar -->
-      <aside class="lg:col-span-1">
-        <nav class="sticky top-20 space-y-1">
-          <h2 class="font-semibold mb-4">Documentation</h2>
-          <NuxtLink 
-            to="/docs/getting-started" 
-            class="block px-3 py-2 rounded-md text-sm hover:bg-accent"
-            active-class="bg-accent text-accent-foreground"
-          >
-            Getting Started
-          </NuxtLink>
-        </nav>
-      </aside>
-
-      <!-- Content -->
-      <article class="lg:col-span-3">
-        <ContentDoc>
-          <template #default="{ doc }">
-            <div class="prose prose-slate dark:prose-invert max-w-none">
-              <h1>{{ doc.title }}</h1>
-              <p class="lead text-muted-foreground">{{ doc.description }}</p>
-              <ContentRenderer :value="doc" />
-            </div>
-          </template>
-          <template #not-found>
-            <div class="text-center py-12">
-              <Icon name="lucide:file-question" class="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-              <h2 class="text-2xl font-bold mb-2">Page Not Found</h2>
-              <p class="text-muted-foreground mb-4">
-                The documentation page you're looking for doesn't exist.
-              </p>
-              <NuxtLink 
-                to="/docs" 
-                class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-6"
-              >
-                Back to Documentation
-              </NuxtLink>
-            </div>
-          </template>
-        </ContentDoc>
-      </article>
-    </div>
-  </div>
+  <ContentDoc>
+    <template #default="{ doc }">
+      <ContentRenderer :value="doc" />
+    </template>
+    <template #not-found>
+      <div class="py-16 text-center">
+        <Icon name="heroicons:document-magnifying-glass" class="mx-auto mb-6 h-20 w-20 text-gray-400" />
+        <h1 class="mb-3 text-3xl font-bold text-gray-900 dark:text-white">
+          Page Not Found
+        </h1>
+        <p class="mb-6 text-lg text-gray-600 dark:text-gray-400">
+          The documentation page you're looking for doesn't exist.
+        </p>
+        <NuxtLink
+          to="/docs"
+          class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+        >
+          <Icon name="heroicons:arrow-left" class="h-5 w-5" />
+          Back to Documentation
+        </NuxtLink>
+      </div>
+    </template>
+  </ContentDoc>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'docs',
+})
+
+// Fetch the current document
+const { data: doc } = await useAsyncData('current-doc', () =>
+  queryContent(useRoute().path).findOne()
+)
+
+// Apply SEO meta tags
+useDocsSeo(doc)
+
 const route = useRoute()
-const { data: doc } = await useAsyncData(`content-${route.path}`, () => 
+
+const { data: page } = await useAsyncData(`page-${route.path}`, () =>
   queryContent(route.path).findOne()
 )
 
 useSeoMeta({
-  title: () => doc.value?.title ? `${doc.value.title} - OpenSeadragon` : 'Documentation - OpenSeadragon',
-  description: () => doc.value?.description || 'OpenSeadragon documentation',
+  title: () => page.value?.title ? `${page.value.title} - OpenSeadragon Documentation` : 'OpenSeadragon Documentation',
+  description: () => page.value?.description || 'OpenSeadragon documentation',
 })
 </script>
