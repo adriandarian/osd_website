@@ -1,9 +1,10 @@
 ---
 title: Getting Started
 description: Learn how to install and use OpenSeadragon in your project
-category: guide
-tags: [installation, setup, beginner, quickstart]
-difficulty: beginner
+category: Getting Started
+icon: heroicons:rocket-launch
+order: 1
+badge: new
 ---
 
 # Getting Started with OpenSeadragon
