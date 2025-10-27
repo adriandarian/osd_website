@@ -182,4 +182,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: true,
   },
+
+  // Explicitly enable pages
+  pages: true,
 })
