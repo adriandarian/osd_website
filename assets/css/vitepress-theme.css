@@ -1,0 +1,24 @@
+/* VitePress Sidebar Styling */
+.vp-sidebar-link {
+  color: var(--vp-c-text-2);
+  background-color: transparent;
+}
+
+.vp-sidebar-link:hover {
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-bg-soft);
+}
+
+.vp-sidebar-link.active {
+  color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-brand-soft);
+  font-weight: 600;
+}
+
+.vp-section-title {
+  color: var(--vp-c-text-3);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
