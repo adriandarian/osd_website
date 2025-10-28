@@ -13,8 +13,6 @@ OpenSeadragon supports multiple types of tile sources for serving zoomable image
 
 ::tabs
 :::tab{label="DZI"}
-## Deep Zoom Image (DZI)
-
 Microsoft's Deep Zoom Image format, consisting of a `.dzi` XML file and a folder of tiles.
 
 ### Usage
@@ -37,51 +35,45 @@ const viewer = OpenSeadragon({
 ```
 :::
 
-:::tab{label="IIIF 2.0"}
-## IIIF Image API 2.0
-
+:::tab{label="IIIF"}
 IIIF (International Image Interoperability Framework) provides a standardized API for delivering images.
+
+### IIIF Image API 2.0
 
 ```javascript
 tileSources: {
   '@context': 'http://iiif.io/api/image/2/context.json',
-  'protocol': 'http://iiif.io/api/image',
-  'profile': ['http://iiif.io/api/image/2/level2.json'],
-  'tiles': [{
-    'scaleFactors': [1, 2, 4, 8, 16],
-    'width': 256
+  protocol: 'http://iiif.io/api/image',
+  profile: ['http://iiif.io/api/image/2/level2.json'],
+  tiles: [{
+    scaleFactors: [1, 2, 4, 8, 16],
+    width: 256
   }],
-  'id': 'https://example.com/image-service',
-  'width': 4000,
-  'height': 3000
+  id: 'https://example.com/image-service',
+  width: 4000,
+  height: 3000
 }
 ```
-:::
 
-:::tab{label="IIIF 3.0"}
-## IIIF Image API 3.0
-
-IIIF (International Image Interoperability Framework) provides a standardized API for delivering images.
+### IIIF Image API 3.0
 
 ```javascript
 tileSources: {
   '@context': 'http://iiif.io/api/image/3/context.json',
-  'id': 'https://example.com/image-service',
-  'type': 'ImageService3',
-  'profile': 'level2',
-  'width': 4000,
-  'height': 3000,
-  'tiles': [{
-    'scaleFactors': [1, 2, 4, 8, 16],
-    'width': 256
+  id: 'https://example.com/image-service',
+  type: 'ImageService3',
+  profile: 'level2',
+  width: 4000,
+  height: 3000,
+  tiles: [{
+    scaleFactors: [1, 2, 4, 8, 16],
+    width: 256
   }]
 }
 ```
 :::
 
 :::tab{label="Zoomify"}
-## Zoomify
-
 The Zoomify format stores tiles in a specific folder structure.
 
 ```javascript
@@ -95,8 +87,6 @@ tileSources: {
 :::
 
 :::tab{label="Legacy Image Pyramid"}
-## Legacy Image Pyramid
-
 For images tiled with the Legacy Image Pyramid format.
 
 ```javascript
@@ -116,8 +106,6 @@ tileSources: {
 :::
 
 :::tab{label="Simple Image"}
-## Simple Image
-
 For non-tiled images (not recommended for large images).
 
 ```javascript
@@ -129,8 +117,6 @@ tileSources: {
 :::
 
 :::tab{label="Custom"}
-## Custom Tile Source
-
 You can create custom tile sources by extending the `TileSource` class:
 
 ```javascript
