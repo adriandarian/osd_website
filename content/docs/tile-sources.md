@@ -3,7 +3,7 @@ title: Tile Sources
 description: Understanding and configuring different types of tile sources
 category: Guides
 icon: heroicons:squares-2x2
-order: 20
+order: 5
 badge: updated
 ---
 
@@ -11,6 +11,8 @@ badge: updated
 
 OpenSeadragon supports multiple types of tile sources for serving zoomable images.
 
+::tabs
+:::tab{label="DZI"}
 ## Deep Zoom Image (DZI)
 
 Microsoft's Deep Zoom Image format, consisting of a `.dzi` XML file and a folder of tiles.
@@ -33,12 +35,12 @@ const viewer = OpenSeadragon({
   <Size Width="4000" Height="3000"/>
 </Image>
 ```
+:::
 
-## IIIF (International Image Interoperability Framework)
+:::tab{label="IIIF 2.0"}
+## IIIF Image API 2.0
 
-IIIF provides a standardized API for delivering images.
-
-### IIIF Image API 2.0
+IIIF (International Image Interoperability Framework) provides a standardized API for delivering images.
 
 ```javascript
 tileSources: {
@@ -54,8 +56,12 @@ tileSources: {
   'height': 3000
 }
 ```
+:::
 
-### IIIF Image API 3.0
+:::tab{label="IIIF 3.0"}
+## IIIF Image API 3.0
+
+IIIF (International Image Interoperability Framework) provides a standardized API for delivering images.
 
 ```javascript
 tileSources: {
@@ -71,7 +77,9 @@ tileSources: {
   }]
 }
 ```
+:::
 
+:::tab{label="Zoomify"}
 ## Zoomify
 
 The Zoomify format stores tiles in a specific folder structure.
@@ -84,7 +92,9 @@ tileSources: {
   tilesUrl: '/images/zoomify/'
 }
 ```
+:::
 
+:::tab{label="Legacy Image Pyramid"}
 ## Legacy Image Pyramid
 
 For images tiled with the Legacy Image Pyramid format.
@@ -103,7 +113,9 @@ tileSources: {
   }]
 }
 ```
+:::
 
+:::tab{label="Simple Image"}
 ## Simple Image
 
 For non-tiled images (not recommended for large images).
@@ -114,7 +126,9 @@ tileSources: {
   url: '/images/simple.jpg'
 }
 ```
+:::
 
+:::tab{label="Custom"}
 ## Custom Tile Source
 
 You can create custom tile sources by extending the `TileSource` class:
@@ -141,6 +155,8 @@ const viewer = OpenSeadragon({
   })
 })
 ```
+:::
+::
 
 ## Next Steps
 

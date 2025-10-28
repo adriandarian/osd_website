@@ -93,15 +93,19 @@ const tabs = computed(() => {
 }
 
 .tabs-content {
-  background: rgb(249, 250, 251);
+  background: white;
   border: 1px solid rgb(229, 231, 235);
   border-top: none;
   border-radius: 0 0 8px 8px;
-  padding: 4px;
+  overflow: hidden;
 }
 
 .dark .tabs-content {
   background: #0d1117;
   border-color: #30363d;
+}
+
+.tabs-content > div {
+  min-height: 200px;
 }
 </style>
