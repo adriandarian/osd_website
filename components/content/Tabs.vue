@@ -1,33 +1,21 @@
 <template>
-  <div class="tabs-container my-5">
-    <!-- Tab buttons -->
-    <div class="flex flex-wrap gap-0.5 border-b border-gray-200 dark:border-gray-800">
+  <div class="tabs-container">
+    <div class="tabs-header">
       <button
         v-for="(tab, index) in tabs"
         :key="index"
         @click="activeTab = index"
-        class="relative px-3.5 py-2 text-sm font-medium transition-all rounded-t-md"
-        :class="[
-          activeTab === index
-            ? 'text-blue-600 dark:text-blue-400 bg-gray-50 dark:bg-gray-800/50'
-            : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-50/50 dark:hover:bg-gray-800/30',
-        ]"
+        class="tab-button"
+        :class="{ active: activeTab === index }"
       >
         {{ tab.label }}
-        <span
-          v-if="activeTab === index"
-          class="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 dark:bg-blue-400"
-        ></span>
       </button>
     </div>
-
-    <!-- Tab content -->
-    <div class="tab-content mt-3 px-1">
+    <div class="tabs-content">
       <div
         v-for="(tab, index) in tabs"
         :key="index"
         v-show="activeTab === index"
-        class="prose prose-gray dark:prose-invert max-w-none"
       >
         <component :is="tab.content" />
       </div>
@@ -36,12 +24,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useSlots, computed } from 'vue'
+import { ref, useSlots, computed, provide } from 'vue'
 
 const slots = useSlots()
 const activeTab = ref(0)
 
-// Extract tab information from slots
+provide('inTabs', true)
+
 const tabs = computed(() => {
   const defaultSlot = slots.default?.()
   if (!defaultSlot) return []
@@ -56,18 +45,63 @@ const tabs = computed(() => {
 </script>
 
 <style scoped>
-.tab-content {
-  animation: fadeIn 0.15s ease-in-out;
+.tabs-container {
+  margin: 1.5rem 0;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.tabs-header {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid rgb(229, 231, 235);
+}
+
+.dark .tabs-header {
+  border-bottom-color: #30363d;
+}
+
+.tab-button {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: rgb(107, 114, 128);
+  transition: all 0.2s;
+}
+
+.dark .tab-button {
+  color: rgb(156, 163, 175);
+}
+
+.tab-button:hover {
+  color: rgb(17, 24, 39);
+}
+
+.dark .tab-button:hover {
+  color: rgb(229, 231, 235);
+}
+
+.tab-button.active {
+  color: rgb(17, 24, 39);
+  border-bottom-color: rgb(59, 130, 246);
+}
+
+.dark .tab-button.active {
+  color: rgb(229, 231, 235);
+  border-bottom-color: rgb(96, 165, 250);
+}
+
+.tabs-content {
+  background: rgb(249, 250, 251);
+  border: 1px solid rgb(229, 231, 235);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 4px;
+}
+
+.dark .tabs-content {
+  background: #0d1117;
+  border-color: #30363d;
 }
 </style>

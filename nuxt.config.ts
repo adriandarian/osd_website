@@ -55,8 +55,8 @@ export default defineNuxtConfig({
     documentDriven: false,
     highlight: {
       theme: {
-        default: 'vitesse-light',
-        dark: 'vitesse-dark',
+        default: 'github-light',
+        dark: 'github-dark',
       },
       preload: [
         'js',

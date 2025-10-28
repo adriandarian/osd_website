@@ -44,14 +44,12 @@ bun add openseadragon
 ```html
 <script src="https://cdn.jsdelivr.net/npm/openseadragon@latest/build/openseadragon/openseadragon.min.js"></script>
 ```
-::badge{type="info"}No build step required::
 :::
 
 :::tab{label="unpkg"}
 ```html
 <script src="https://unpkg.com/openseadragon@latest/build/openseadragon/openseadragon.min.js"></script>
 ```
-::badge{type="info"}No build step required::
 :::
 ::
 
