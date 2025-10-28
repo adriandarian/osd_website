@@ -111,7 +111,7 @@
             <DocsBreadcrumb class="mb-6" />
 
             <!-- Page Content -->
-            <article class="prose prose-lg prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc">
+            <article class="prose prose-base prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc">
               <slot />
             </article>
 
@@ -290,25 +290,46 @@ watch(() => route.path, () => {
 }
 
 .prose :deep(h1) {
-  @apply mb-6 mt-0 scroll-mt-20 pb-4 text-4xl font-bold tracking-tight;
+  @apply mb-6 mt-0 scroll-mt-20 pb-4 text-3xl font-bold tracking-tight;
   border-bottom: 1px solid var(--vp-c-divider);
   color: var(--vp-c-text-1);
 }
 
 .prose :deep(h2) {
-  @apply mb-4 mt-10 scroll-mt-20 pb-2 text-3xl font-semibold;
+  @apply mb-4 mt-10 scroll-mt-20 pb-2 text-2xl font-semibold;
   border-bottom: 1px solid var(--vp-c-divider);
   color: var(--vp-c-text-1);
 }
 
 .prose :deep(h3) {
-  @apply mb-3 mt-8 scroll-mt-20 text-2xl font-semibold;
+  @apply mb-3 mt-8 scroll-mt-20 text-xl font-semibold;
   color: var(--vp-c-text-1);
 }
 
 .prose :deep(h4) {
-  @apply mb-2 mt-6 scroll-mt-20 text-xl font-semibold;
+  @apply mb-2 mt-6 scroll-mt-20 text-lg font-semibold;
   color: var(--vp-c-text-1);
+}
+
+/* Indent content under h2 headings */
+.prose :deep(h2 ~ *:not(h2):not(h1)) {
+  margin-left: 1.5rem;
+}
+
+/* Reset indent for h3 and h4 to keep them aligned with content */
+.prose :deep(h2 ~ h3),
+.prose :deep(h2 ~ h4) {
+  margin-left: 1.5rem;
+}
+
+/* Further indent content under h3 headings */
+.prose :deep(h3 ~ *:not(h3):not(h2):not(h1)) {
+  margin-left: 3rem;
+}
+
+/* Reset indent for h4 to keep it aligned with h3 content */
+.prose :deep(h3 ~ h4) {
+  margin-left: 3rem;
 }
 
 .prose :deep(p) {
