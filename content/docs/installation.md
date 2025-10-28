@@ -60,11 +60,3 @@ To verify the installation, you can check the version:
 import OpenSeadragon from 'openseadragon'
 console.log(OpenSeadragon.version)
 ```
-
-## Next Steps
-
-Now that you have OpenSeadragon installed, continue to the setup guide:
-
-::alert{type="tip" title="Continue to Setup"}
-- 🚀 [Setup](/docs/setup) - Create your first viewer
-::
