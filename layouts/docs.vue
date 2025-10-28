@@ -1,14 +1,65 @@
 <template>
-  <div class="min-h-screen" style="background-color: var(--vp-c-bg)">
+  <div class="min-h-screen flex flex-col">
+    <!-- Header (from default layout) -->
+    <header class="sticky top-0 z-50 w-full backdrop-blur-md vp-header">
+      <div class="w-full max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-8">
+          <NuxtLink to="/" class="flex items-center space-x-2.5 transition-opacity hover:opacity-80 vp-logo">
+            <img src="/logo.png" alt="OpenSeadragon" class="h-8 w-8" />
+            <span class="text-xl font-bold">OpenSeadragon</span>
+          </NuxtLink>
+          
+          <nav class="hidden md:flex items-center space-x-1 text-sm font-medium">
+            <NuxtLink to="/docs" class="rounded-md px-3 py-2 transition-colors vp-nav-link">
+              Documentation
+            </NuxtLink>
+            <NuxtLink to="/examples" class="rounded-md px-3 py-2 transition-colors vp-nav-link">
+              Examples
+            </NuxtLink>
+            <NuxtLink to="/playground" class="rounded-md px-3 py-2 transition-colors vp-nav-link">
+              Playground
+            </NuxtLink>
+            <NuxtLink to="/plugins" class="rounded-md px-3 py-2 transition-colors vp-nav-link">
+              Plugins
+            </NuxtLink>
+          </nav>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Theme Toggle -->
+          <button 
+            @click="toggleColorMode" 
+            class="inline-flex items-center justify-center rounded-lg text-sm font-medium transition-all h-9 w-9 vp-button"
+            aria-label="Toggle theme"
+          >
+            <Icon v-if="colorMode.value === 'dark'" name="lucide:sun" class="h-[18px] w-[18px]" />
+            <Icon v-else name="lucide:moon" class="h-[18px] w-[18px]" />
+          </button>
+
+          <!-- GitHub Link -->
+          <a 
+            href="https://github.com/openseadragon/openseadragon" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center rounded-lg text-sm font-medium transition-all h-9 w-9 vp-button"
+            aria-label="GitHub"
+          >
+            <Icon name="mdi:github" class="h-5 w-5" />
+          </a>
+        </div>
+      </div>
+    </header>
+
     <!-- Main docs container -->
-    <div class="mx-auto max-w-8xl">
-      <div class="flex">
+    <div class="flex-1">
+      <div class="mx-auto max-w-8xl">
+        <div class="flex relative">
         <!-- Sidebar Navigation (Left) -->
         <aside
-          class="fixed left-0 top-16 z-20 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto lg:block"
-          style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-alt)"
+          class="sticky top-16 left-0 z-20 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto lg:block self-start"
+          style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-alt);"
         >
-          <nav class="px-6 py-8">
+          <nav class="px-4 py-6">
             <DocsSidebar />
           </nav>
         </aside>
@@ -17,8 +68,8 @@
         <div class="lg:hidden">
           <button
             @click="toggleMobileSidebar"
-            class="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-lg ring-2 transition-all hover:scale-105 hover:shadow-xl active:scale-95"
-            style="background-color: var(--vp-c-brand-1); color: white; --tw-ring-color: var(--vp-c-brand-soft)"
+            class="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full shadow-md ring-1 transition-all hover:shadow-lg active:scale-95"
+            style="background-color: var(--vp-c-brand-1); color: white; --tw-ring-color: var(--vp-c-divider);"
             aria-label="Toggle documentation navigation"
           >
             <Icon
@@ -42,49 +93,150 @@
         <Transition name="slide">
           <aside
             v-if="isMobileSidebarOpen"
-            class="fixed left-0 top-16 z-40 h-[calc(100vh-4rem)] w-80 overflow-y-auto shadow-2xl lg:hidden"
-            style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-alt)"
+            class="fixed left-0 top-16 bottom-0 z-40 w-80 overflow-y-auto shadow-xl lg:hidden"
+            style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-alt);"
           >
-            <nav class="px-6 py-8">
+            <nav class="px-4 py-6">
               <DocsSidebar @navigate="closeMobileSidebar" />
             </nav>
           </aside>
         </Transition>
 
         <!-- Main Content Area -->
-        <main class="min-h-screen w-full lg:pl-64 xl:pr-80">
-          <div class="mx-auto max-w-3xl px-6 py-10 sm:px-8 lg:px-10 lg:py-12 rounded-lg" style="background-color: var(--vp-c-bg)">
+        <main class="w-full flex-1 lg:px-0">
+          <div class="mx-auto max-w-3xl px-6 py-8 sm:px-8 lg:px-10 lg:py-10">
             <!-- Breadcrumb -->
-            <DocsBreadcrumb class="mb-8" />
+            <DocsBreadcrumb class="mb-6" />
 
             <!-- Page Content -->
-            <article class="prose prose-lg prose-headings:scroll-mt-20 prose-headings:font-semibold prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium max-w-none vp-doc">
+            <article class="prose prose-lg prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc">
               <slot />
             </article>
 
             <!-- Page Navigation (Prev/Next) -->
-            <DocsPageNav class="mt-16 pt-10" style="border-top: 1px solid var(--vp-c-divider)" />
+            <DocsPageNav class="mt-12 pt-8" style="border-top: 1px solid var(--vp-c-divider)" />
 
             <!-- Page Feedback -->
-            <DocsPageFeedback class="mt-10" />
+            <DocsPageFeedback class="mt-8" />
           </div>
         </main>
 
         <!-- Table of Contents (Right) -->
         <aside
-          class="fixed right-0 top-16 hidden h-[calc(100vh-4rem)] w-80 shrink-0 overflow-y-auto xl:block"
-          style="border-left: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-alt)"
+          class="sticky top-16 right-0 hidden h-[calc(100vh-4rem)] w-72 shrink-0 overflow-y-auto xl:block self-start"
+          style="border-left: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg);"
         >
-          <nav class="px-6 py-8">
+          <nav class="px-6 py-6">
             <DocsTableOfContents />
           </nav>
         </aside>
       </div>
     </div>
+    </div>
+
+    <!-- Footer (from default layout) -->
+    <footer class="border-t vp-footer">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <!-- About Section -->
+          <div class="space-y-4">
+            <div class="flex items-center space-x-2.5">
+              <img src="/logo.png" alt="OpenSeadragon" class="h-8 w-8" />
+              <span class="text-lg font-bold">OpenSeadragon</span>
+            </div>
+            <p class="text-sm vp-footer-text">
+              An open-source, web-based viewer for high-resolution zoomable images, implemented in pure JavaScript.
+            </p>
+          </div>
+
+          <!-- Documentation Links -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider vp-footer-heading">Documentation</h3>
+            <ul class="space-y-3">
+              <li>
+                <NuxtLink to="/docs/getting-started" class="text-sm vp-footer-link">Getting Started</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink to="/docs/installation" class="text-sm vp-footer-link">Installation</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink to="/docs/basic-usage" class="text-sm vp-footer-link">Basic Usage</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink to="/docs/configuration" class="text-sm vp-footer-link">Configuration</NuxtLink>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Resources Links -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider vp-footer-heading">Resources</h3>
+            <ul class="space-y-3">
+              <li>
+                <NuxtLink to="/examples" class="text-sm vp-footer-link">Examples</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink to="/playground" class="text-sm vp-footer-link">Playground</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink to="/plugins" class="text-sm vp-footer-link">Plugins</NuxtLink>
+              </li>
+              <li>
+                <a href="https://github.com/openseadragon/openseadragon" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Community Links -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider vp-footer-heading">Community</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href="https://github.com/openseadragon/openseadragon/discussions" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link">
+                  Discussions
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/openseadragon/openseadragon/issues" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link">
+                  Issues
+                </a>
+              </li>
+              <li>
+                <NuxtLink to="/license" class="text-sm vp-footer-link">License</NuxtLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-12 pt-8 vp-footer-border">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-sm vp-footer-text">
+              © {{ new Date().getFullYear() }} OpenSeadragon. Released under the BSD License.
+            </p>
+            <div class="flex items-center gap-4">
+              <a href="https://github.com/openseadragon/openseadragon" target="_blank" rel="noopener noreferrer" class="vp-footer-link">
+                <Icon name="mdi:github" class="h-5 w-5" />
+              </a>
+              <a href="https://twitter.com/openseadragon" target="_blank" rel="noopener noreferrer" class="vp-footer-link">
+                <Icon name="mdi:twitter" class="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
+const colorMode = useColorMode()
+
+const toggleColorMode = () => {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+
 const isMobileSidebarOpen = ref(false)
 
 const toggleMobileSidebar = () => {
@@ -251,5 +403,59 @@ html {
 *:focus-visible {
   outline: 2px solid var(--vp-c-brand-1);
   outline-offset: 2px;
+}
+
+/* VitePress Header Styling */
+.vp-header {
+  border-bottom: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg);
+}
+
+.vp-logo {
+  color: var(--vp-c-text-1);
+}
+
+.vp-nav-link {
+  color: var(--vp-c-text-2);
+}
+
+.vp-nav-link:hover {
+  background-color: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+}
+
+.vp-button {
+  color: var(--vp-c-text-2);
+}
+
+.vp-button:hover {
+  background-color: var(--vp-c-bg-soft);
+}
+
+/* Footer Styling */
+.vp-footer {
+  border-top: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg-alt);
+}
+
+.vp-footer-heading {
+  color: var(--vp-c-text-1);
+}
+
+.vp-footer-text {
+  color: var(--vp-c-text-2);
+}
+
+.vp-footer-link {
+  color: var(--vp-c-text-2);
+  transition: color 0.25s;
+}
+
+.vp-footer-link:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.vp-footer-border {
+  border-top: 1px solid var(--vp-c-divider);
 }
 </style>

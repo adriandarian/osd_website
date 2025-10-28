@@ -1,18 +1,18 @@
 <template>
   <div v-if="toc && toc.links && toc.links.length > 0" class="docs-toc">
-    <h3 class="mb-4 text-sm font-semibold text-gray-900 dark:text-white">
+    <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
       On this page
     </h3>
     
     <nav>
-      <ul class="space-y-2 text-sm">
+      <ul class="space-y-1.5 text-sm">
         <li v-for="link in toc.links" :key="link.id">
           <a
             :href="`#${link.id}`"
-            class="block border-l-2 py-1 pl-4 transition-colors"
+            class="block border-l-2 py-1 pl-3 transition-colors text-xs"
             :class="[
               activeId === link.id
-                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
+                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 font-medium'
                 : 'border-gray-200 text-gray-600 hover:border-gray-400 hover:text-gray-900 dark:border-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-white',
             ]"
             @click.prevent="scrollToHeading(link.id)"
@@ -21,14 +21,14 @@
           </a>
           
           <!-- Nested headings (h3 under h2) -->
-          <ul v-if="link.children && link.children.length > 0" class="ml-4 mt-1 space-y-1">
+          <ul v-if="link.children && link.children.length > 0" class="ml-3 mt-1 space-y-1">
             <li v-for="child in link.children" :key="child.id">
               <a
                 :href="`#${child.id}`"
-                class="block border-l-2 py-1 pl-4 text-xs transition-colors"
+                class="block border-l-2 py-0.5 pl-3 text-[11px] transition-colors"
                 :class="[
                   activeId === child.id
-                    ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
+                    ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 font-medium'
                     : 'border-gray-200 text-gray-500 hover:border-gray-400 hover:text-gray-900 dark:border-gray-800 dark:text-gray-500 dark:hover:border-gray-600 dark:hover:text-white',
                 ]"
                 @click.prevent="scrollToHeading(child.id)"
@@ -45,9 +45,9 @@
     <button
       v-if="showBackToTop"
       @click="scrollToTop"
-      class="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+      class="mt-5 flex w-full items-center justify-center gap-1.5 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
     >
-      <Icon name="heroicons:arrow-up" class="h-4 w-4" />
+      <Icon name="heroicons:arrow-up" class="h-3.5 w-3.5" />
       Back to top
     </button>
   </div>

@@ -1,13 +1,13 @@
 <template>
   <nav aria-label="Breadcrumb" class="flex">
-    <ol class="flex items-center space-x-2 text-sm">
+    <ol class="flex items-center space-x-1.5 text-xs">
       <!-- Home link -->
       <li>
         <NuxtLink
           to="/docs"
-          class="flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          class="flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
         >
-          <Icon name="heroicons:home" class="h-4 w-4" />
+          <Icon name="heroicons:home" class="h-3.5 w-3.5" />
           <span class="sr-only">Documentation Home</span>
         </NuxtLink>
       </li>
@@ -17,7 +17,7 @@
         <!-- Separator -->
         <Icon
           name="heroicons:chevron-right"
-          class="mx-2 h-4 w-4 text-gray-400 dark:text-gray-600"
+          class="mx-1.5 h-3 w-3 text-gray-400 dark:text-gray-600"
         />
         
         <!-- Crumb link or text -->
@@ -27,7 +27,7 @@
           :class="[
             index === breadcrumbs.length - 1
               ? 'font-medium text-gray-900 dark:text-white'
-              : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
+              : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors',
           ]"
           :aria-current="index === breadcrumbs.length - 1 ? 'page' : undefined"
         >

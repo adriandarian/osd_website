@@ -3,11 +3,11 @@
     <!-- Search Button -->
     <button
       @click="open"
-      class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+      class="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 bg-transparent border border-gray-200 dark:border-gray-700 rounded-md hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-all"
     >
-      <Icon name="heroicons:magnifying-glass" class="w-4 h-4" />
-      <span class="flex-1 text-left">Search documentation...</span>
-      <kbd class="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs font-mono bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded">
+      <Icon name="heroicons:magnifying-glass" class="w-4 h-4 text-gray-400" />
+      <span class="flex-1 text-left text-gray-500 dark:text-gray-500">Search docs...</span>
+      <kbd class="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-gray-500 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
         <span v-if="isMac">⌘</span>
         <span v-else>Ctrl</span>
         <span>K</span>
@@ -17,33 +17,33 @@
     <!-- Search Modal -->
     <Teleport to="body">
       <Transition
-        enter-active-class="transition-opacity duration-200"
-        leave-active-class="transition-opacity duration-200"
+        enter-active-class="transition-opacity duration-150"
+        leave-active-class="transition-opacity duration-150"
         enter-from-class="opacity-0"
         leave-to-class="opacity-0"
       >
         <div
           v-if="isOpen"
-          class="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] px-4"
+          class="fixed inset-0 z-50 flex items-start justify-center pt-[12vh] px-4"
           @click="close"
         >
           <!-- Backdrop -->
-          <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+          <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
 
           <!-- Modal -->
           <div
-            class="relative w-full max-w-2xl bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+            class="relative w-full max-w-2xl bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
             @click.stop
           >
             <!-- Search Input -->
-            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-              <Icon name="heroicons:magnifying-glass" class="w-5 h-5 text-gray-400" />
+            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+              <Icon name="heroicons:magnifying-glass" class="w-5 h-5 text-gray-400 flex-shrink-0" />
               <input
                 ref="searchInput"
                 v-model="query"
                 type="text"
                 placeholder="Search documentation..."
-                class="flex-1 bg-transparent text-gray-900 dark:text-white placeholder-gray-400 outline-none"
+                class="flex-1 bg-transparent text-gray-900 dark:text-white placeholder-gray-400 outline-none text-sm"
                 @keydown.down.prevent="highlightNext"
                 @keydown.up.prevent="highlightPrevious"
                 @keydown.enter="navigateToHighlighted"
@@ -52,41 +52,41 @@
               <button
                 v-if="query"
                 @click="query = ''"
-                class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
-                <Icon name="heroicons:x-mark" class="w-5 h-5" />
+                <Icon name="heroicons:x-mark" class="w-4 h-4" />
               </button>
             </div>
 
             <!-- Results -->
-            <div class="max-h-[60vh] overflow-y-auto">
+            <div class="max-h-[55vh] overflow-y-auto">
               <!-- Loading -->
-              <div v-if="isSearching" class="p-8 text-center text-gray-500">
-                <Icon name="lucide:loader-2" class="w-6 h-6 animate-spin mx-auto mb-2" />
-                <p>Searching...</p>
+              <div v-if="isSearching" class="p-12 text-center text-gray-500">
+                <Icon name="lucide:loader-2" class="w-5 h-5 animate-spin mx-auto mb-2 text-gray-400" />
+                <p class="text-sm">Searching...</p>
               </div>
 
               <!-- No Query -->
-              <div v-else-if="!query" class="p-8 text-center text-gray-500">
-                <Icon name="heroicons:magnifying-glass" class="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p class="text-sm">Start typing to search documentation</p>
+              <div v-else-if="!query" class="p-12 text-center text-gray-500">
+                <Icon name="heroicons:magnifying-glass" class="w-10 h-10 mx-auto mb-2 opacity-30 text-gray-400" />
+                <p class="text-sm text-gray-400">Type to search documentation</p>
               </div>
 
               <!-- No Results -->
-              <div v-else-if="results.length === 0 && !isSearching" class="p-8 text-center text-gray-500">
-                <Icon name="heroicons:document-magnifying-glass" class="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p class="text-sm">No results found for "<span class="font-semibold">{{ query }}</span>"</p>
+              <div v-else-if="results.length === 0 && !isSearching" class="p-12 text-center text-gray-500">
+                <Icon name="heroicons:document-magnifying-glass" class="w-10 h-10 mx-auto mb-2 opacity-30 text-gray-400" />
+                <p class="text-sm text-gray-400">No results for "<span class="font-medium text-gray-500">{{ query }}</span>"</p>
               </div>
 
               <!-- Results List -->
-              <div v-else class="py-2">
+              <div v-else class="py-1.5">
                 <NuxtLink
                   v-for="(result, index) in results"
                   :key="result._path"
                   :to="result._path"
                   :class="[
-                    'flex flex-col gap-1 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors',
-                    index === highlightedIndex && 'bg-gray-100 dark:bg-gray-800'
+                    'flex flex-col gap-1 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors',
+                    index === highlightedIndex && 'bg-gray-50 dark:bg-gray-800/60'
                   ]"
                   @click="close"
                 >
@@ -96,7 +96,7 @@
                       :name="result.icon"
                       class="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0"
                     />
-                    <span class="font-medium text-gray-900 dark:text-white">{{ result.title }}</span>
+                    <span class="font-medium text-sm text-gray-900 dark:text-white">{{ result.title }}</span>
                     <span
                       v-if="result.badge"
                       :class="[

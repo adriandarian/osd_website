@@ -1,15 +1,15 @@
 <template>
   <div class="docs-sidebar">
     <!-- Search box -->
-    <div class="mb-6">
+    <div class="mb-8">
       <DocsSearch />
     </div>
 
     <!-- Navigation sections -->
-    <div v-if="navigation" class="space-y-7">
-      <div v-for="section in navigation" :key="section.title" class="space-y-2">
+    <div v-if="navigation" class="space-y-6">
+      <div v-for="section in navigation" :key="section.title" class="space-y-1.5">
         <!-- Section title -->
-        <h3 class="vp-section-title mb-3 px-3">
+        <h3 class="vp-section-title mb-2 px-2.5">
           {{ section.title }}
         </h3>
 
@@ -18,15 +18,15 @@
           <li v-for="link in section.links" :key="link._path">
             <NuxtLink
               :to="link._path"
-              class="group flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150 vp-sidebar-link"
+              class="group flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm font-medium transition-all duration-200 vp-sidebar-link"
               :class="{ 'active': isActive(link._path) }"
               @click="handleNavigate"
             >
-              <span class="flex items-center gap-2.5">
+              <span class="flex items-center gap-2">
                 <Icon
                   v-if="link.icon"
                   :name="link.icon"
-                  class="h-[18px] w-[18px] shrink-0 transition-colors"
+                  class="h-[17px] w-[17px] shrink-0 transition-colors"
                   :class="[
                     isActive(link._path)
                       ? 'text-blue-600 dark:text-blue-400'
@@ -39,7 +39,7 @@
               <!-- Badge for new or beta items -->
               <span
                 v-if="link.badge"
-                class="ml-2 rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide"
+                class="ml-2 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider"
                 :class="getBadgeClass(link.badge)"
               >
                 {{ link.badge }}
@@ -47,11 +47,11 @@
             </NuxtLink>
 
             <!-- Nested links (if any) -->
-            <ul v-if="link.children && link.children.length > 0" class="ml-4 mt-1 space-y-1">
+            <ul v-if="link.children && link.children.length > 0" class="ml-3 mt-0.5 space-y-0.5">
               <li v-for="child in link.children" :key="child._path">
                 <NuxtLink
                   :to="child._path"
-                  class="block rounded-md px-3 py-1.5 text-sm transition-colors"
+                  class="block rounded-md px-2.5 py-1 text-xs transition-colors"
                   :class="[
                     isActive(child._path)
                       ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'

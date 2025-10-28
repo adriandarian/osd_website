@@ -1,20 +1,20 @@
 <template>
-  <nav v-if="prev || next" class="border-t border-gray-200 pt-8 dark:border-gray-800">
-    <div class="grid gap-4 sm:grid-cols-2">
+  <nav v-if="prev || next" class="border-t border-gray-200 pt-6 dark:border-gray-800">
+    <div class="grid gap-3 sm:grid-cols-2">
       <!-- Previous page -->
       <div v-if="prev" class="group">
         <NuxtLink
           :to="prev._path"
-          class="flex h-full flex-col rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-800"
+          class="flex h-full flex-col rounded-md border border-gray-200 p-3.5 transition-all hover:border-gray-300 hover:bg-gray-50/50 hover:shadow-sm dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-800/50"
         >
-          <span class="mb-1 flex items-center text-sm font-medium text-gray-500 dark:text-gray-400">
-            <Icon name="heroicons:arrow-left" class="mr-2 h-4 w-4" />
+          <span class="mb-1 flex items-center text-xs font-medium text-gray-500 dark:text-gray-400">
+            <Icon name="heroicons:arrow-left" class="mr-1.5 h-3.5 w-3.5" />
             Previous
           </span>
-          <span class="text-base font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+          <span class="text-sm font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
             {{ prev.title }}
           </span>
-          <span v-if="prev.description" class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+          <span v-if="prev.description" class="mt-1 text-xs text-gray-600 dark:text-gray-400 line-clamp-1">
             {{ prev.description }}
           </span>
         </NuxtLink>
@@ -27,16 +27,16 @@
       <div v-if="next" class="group">
         <NuxtLink
           :to="next._path"
-          class="flex h-full flex-col rounded-lg border border-gray-200 p-4 text-right transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-800"
+          class="flex h-full flex-col rounded-md border border-gray-200 p-3.5 text-right transition-all hover:border-gray-300 hover:bg-gray-50/50 hover:shadow-sm dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-800/50"
         >
-          <span class="mb-1 flex items-center justify-end text-sm font-medium text-gray-500 dark:text-gray-400">
+          <span class="mb-1 flex items-center justify-end text-xs font-medium text-gray-500 dark:text-gray-400">
             Next
-            <Icon name="heroicons:arrow-right" class="ml-2 h-4 w-4" />
+            <Icon name="heroicons:arrow-right" class="ml-1.5 h-3.5 w-3.5" />
           </span>
-          <span class="text-base font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+          <span class="text-sm font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
             {{ next.title }}
           </span>
-          <span v-if="next.description" class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+          <span v-if="next.description" class="mt-1 text-xs text-gray-600 dark:text-gray-400 line-clamp-1">
             {{ next.description }}
           </span>
         </NuxtLink>

@@ -1,29 +1,29 @@
 <template>
-  <div class="code-block-wrapper group relative my-6">
+  <div class="code-block-wrapper group relative my-5">
     <!-- Language label and copy button -->
-    <div class="absolute right-3 top-3 z-10 flex items-center gap-2">
+    <div class="absolute right-2.5 top-2.5 z-10 flex items-center gap-1.5">
       <span
         v-if="language && language !== 'text'"
-        class="rounded bg-gray-700/80 px-2 py-1 text-xs font-medium text-gray-200 backdrop-blur-sm"
+        class="rounded bg-gray-800/70 px-2 py-0.5 text-[10px] font-medium text-gray-300 backdrop-blur-sm"
       >
         {{ language }}
       </span>
       <button
         @click="copyCode"
-        class="rounded bg-gray-700/80 p-2 text-gray-200 opacity-0 backdrop-blur-sm transition-all hover:bg-gray-600/80 group-hover:opacity-100"
+        class="rounded bg-gray-800/70 p-1.5 text-gray-300 opacity-0 backdrop-blur-sm transition-all hover:bg-gray-700/80 group-hover:opacity-100"
         :class="{ '!opacity-100': copied }"
         :title="copied ? 'Copied!' : 'Copy code'"
       >
         <Icon
           :name="copied ? 'heroicons:check' : 'heroicons:clipboard-document'"
-          class="h-4 w-4"
+          class="h-3.5 w-3.5"
         />
       </button>
     </div>
 
     <!-- Code block -->
     <pre
-      class="!my-0 overflow-x-auto rounded-lg border border-gray-200/60 bg-gray-50 !p-4 dark:border-gray-700/50 dark:bg-[#1e1e1e]"
+      class="!my-0 overflow-x-auto rounded-md border border-gray-200/50 bg-gray-50/50 !px-4 !py-3 dark:border-gray-800/50 dark:bg-[#1a1a1a]"
     ><slot /></pre>
   </div>
 </template>

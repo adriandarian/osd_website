@@ -1,18 +1,18 @@
 <template>
   <div
-    class="my-6 flex gap-3 rounded-lg border-l-4 p-4"
+    class="my-5 flex gap-3 rounded-md border-l-2 px-4 py-3 shadow-sm"
     :class="alertClasses"
   >
     <Icon
       :name="iconName"
-      class="mt-0.5 h-5 w-5 shrink-0"
+      class="mt-0.5 h-4 w-4 shrink-0"
       :class="iconClasses"
     />
-    <div class="flex-1">
-      <p v-if="title" class="mb-2 font-semibold" :class="titleClasses">
+    <div class="flex-1 min-w-0">
+      <p v-if="title" class="mb-1.5 font-semibold text-sm" :class="titleClasses">
         {{ title }}
       </p>
-      <div class="prose-sm" :class="contentClasses">
+      <div class="prose-sm text-sm" :class="contentClasses">
         <slot />
       </div>
     </div>
@@ -45,11 +45,11 @@ const iconName = computed(() => {
 
 const alertClasses = computed(() => {
   const classes = {
-    info: 'border-blue-500 bg-blue-50/80 dark:border-blue-500/50 dark:bg-blue-950/30',
-    tip: 'border-green-500 bg-green-50/80 dark:border-green-500/50 dark:bg-green-950/30',
-    warning: 'border-yellow-500 bg-yellow-50/80 dark:border-yellow-500/50 dark:bg-yellow-950/30',
-    danger: 'border-red-500 bg-red-50/80 dark:border-red-500/50 dark:bg-red-950/30',
-    note: 'border-gray-500 bg-gray-50/80 dark:border-gray-500/50 dark:bg-gray-800/30',
+    info: 'border-blue-500 bg-blue-50/50 dark:border-blue-500/50 dark:bg-blue-950/20 shadow-blue-100/50 dark:shadow-blue-950/20',
+    tip: 'border-green-500 bg-green-50/50 dark:border-green-500/50 dark:bg-green-950/20 shadow-green-100/50 dark:shadow-green-950/20',
+    warning: 'border-yellow-500 bg-yellow-50/50 dark:border-yellow-500/50 dark:bg-yellow-950/20 shadow-yellow-100/50 dark:shadow-yellow-950/20',
+    danger: 'border-red-500 bg-red-50/50 dark:border-red-500/50 dark:bg-red-950/20 shadow-red-100/50 dark:shadow-red-950/20',
+    note: 'border-gray-400 bg-gray-50/50 dark:border-gray-600/50 dark:bg-gray-800/20 shadow-gray-100/50 dark:shadow-gray-900/20',
   }
   return classes[props.type] || classes.info
 })

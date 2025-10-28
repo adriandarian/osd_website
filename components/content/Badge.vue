@@ -1,6 +1,6 @@
 <template>
   <span
-    class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold"
+    class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
     :class="badgeClasses"
   >
     <slot />
@@ -21,11 +21,11 @@ const props = withDefaults(
 
 const badgeClasses = computed(() => {
   const classes = {
-    success: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-    info: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-    warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-    danger: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-    neutral: 'bg-gray-100 text-gray-800 dark:bg-gray-800/50 dark:text-gray-300',
+    success: 'bg-green-100/80 text-green-700 dark:bg-green-900/25 dark:text-green-300 ring-1 ring-green-200 dark:ring-green-800/50',
+    info: 'bg-blue-100/80 text-blue-700 dark:bg-blue-900/25 dark:text-blue-300 ring-1 ring-blue-200 dark:ring-blue-800/50',
+    warning: 'bg-yellow-100/80 text-yellow-700 dark:bg-yellow-900/25 dark:text-yellow-300 ring-1 ring-yellow-200 dark:ring-yellow-800/50',
+    danger: 'bg-red-100/80 text-red-700 dark:bg-red-900/25 dark:text-red-300 ring-1 ring-red-200 dark:ring-red-800/50',
+    neutral: 'bg-gray-100/80 text-gray-700 dark:bg-gray-800/40 dark:text-gray-300 ring-1 ring-gray-200 dark:ring-gray-700/50',
   }
   return classes[props.type] || classes.neutral
 })
