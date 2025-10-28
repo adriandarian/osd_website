@@ -1,66 +1,14 @@
 ---
-title: Getting Started
-description: Learn how to install and use OpenSeadragon in your project
+title: Setup
+description: Create and configure your first OpenSeadragon viewer
 category: Getting Started
-icon: heroicons:rocket-launch
-order: 1
-badge: new
+icon: heroicons:cog-6-tooth
+order: 2
 ---
 
-# Getting Started with OpenSeadragon
+# Setup
 
-Welcome to OpenSeadragon! This powerful JavaScript library enables seamless visualization of high-resolution zoomable images. Whether you're building a digital archive, an image gallery, or a scientific visualization tool, OpenSeadragon provides the performance and flexibility you need.
-
-## Quick Installation
-
-Choose your preferred installation method:
-
-::tabs
-:::tab{label="npm"}
-```bash
-npm install openseadragon
-```
-:::
-
-:::tab{label="yarn"}
-```bash
-yarn add openseadragon
-```
-:::
-
-:::tab{label="pnpm"}
-```bash
-pnpm add openseadragon
-```
-:::
-
-:::tab{label="bun"}
-```bash
-bun add openseadragon
-```
-:::
-
-:::tab{label="jsDelivr"}
-```html
-<script src="https://cdn.jsdelivr.net/npm/openseadragon@latest/build/openseadragon/openseadragon.min.js"></script>
-```
-:::
-
-:::tab{label="unpkg"}
-```html
-<script src="https://unpkg.com/openseadragon@latest/build/openseadragon/openseadragon.min.js"></script>
-```
-:::
-::
-
-## Verification
-
-To verify the installation, you can check the version:
-
-```javascript
-import OpenSeadragon from 'openseadragon'
-console.log(OpenSeadragon.version)
-```
+Learn how to create and configure your first OpenSeadragon viewer.
 
 ## Your First Viewer
 
@@ -197,7 +145,6 @@ const viewer = OpenSeadragon({
 Now that you have OpenSeadragon up and running, explore more advanced features:
 
 ::alert{type="tip" title="Continue Learning"}
-- 📖 [Basic Usage](/docs/basic-usage) - Learn about common configuration options
 - 🎨 [Tile Sources](/docs/tile-sources) - Understand different image formats
 - ⚙️ [Configuration](/docs/configuration) - Customize your viewer's behavior
 - 🎮 [Examples](/examples) - See live demos and code examples

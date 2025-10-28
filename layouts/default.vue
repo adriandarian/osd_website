@@ -77,13 +77,10 @@
             <h3 class="text-sm font-semibold uppercase tracking-wider vp-footer-heading">Documentation</h3>
             <ul class="space-y-3">
               <li>
-                <NuxtLink to="/docs/getting-started" class="text-sm vp-footer-link">Getting Started</NuxtLink>
-              </li>
-              <li>
                 <NuxtLink to="/docs/installation" class="text-sm vp-footer-link">Installation</NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/docs/basic-usage" class="text-sm vp-footer-link">Basic Usage</NuxtLink>
+                <NuxtLink to="/docs/setup" class="text-sm vp-footer-link">Setup</NuxtLink>
               </li>
               <li>
                 <NuxtLink to="/docs/configuration" class="text-sm vp-footer-link">Configuration</NuxtLink>
