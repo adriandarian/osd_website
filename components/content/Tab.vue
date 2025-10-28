@@ -12,7 +12,7 @@ defineProps<{
 
 <style scoped>
 .tab-item {
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
 }
 
 .tab-item :deep(h2) {
@@ -50,7 +50,7 @@ defineProps<{
 }
 
 .tab-item :deep(pre) {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   border-radius: 0.5rem;
   overflow-x: auto;
 }

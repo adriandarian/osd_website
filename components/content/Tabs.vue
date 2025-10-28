@@ -104,8 +104,4 @@ const tabs = computed(() => {
   background: #0d1117;
   border-color: #30363d;
 }
-
-.tabs-content > div {
-  min-height: 200px;
-}
 </style>
