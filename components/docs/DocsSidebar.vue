@@ -36,14 +36,14 @@
                 <span>{{ link.title }}</span>
               </span>
               
-              <!-- Badge for new or beta items -->
-              <span
+              <!-- Badge for new or beta items - HIDDEN FOR NOW -->
+              <!-- <span
                 v-if="link.badge"
                 class="ml-2 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider"
                 :class="getBadgeClass(link.badge)"
               >
                 {{ link.badge }}
-              </span>
+              </span> -->
             </NuxtLink>
 
             <!-- Nested links (if any) -->
