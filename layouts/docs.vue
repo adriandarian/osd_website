@@ -32,8 +32,10 @@
             class="inline-flex items-center justify-center rounded-lg text-sm font-medium transition-all h-9 w-9 vp-button"
             aria-label="Toggle theme"
           >
-            <Icon v-if="colorMode.value === 'dark'" name="lucide:sun" class="h-[18px] w-[18px]" />
-            <Icon v-else name="lucide:moon" class="h-[18px] w-[18px]" />
+            <ClientOnly>
+              <Icon v-if="colorMode.value === 'dark'" name="lucide:sun" class="h-[18px] w-[18px]" />
+              <Icon v-else name="lucide:moon" class="h-[18px] w-[18px]" />
+            </ClientOnly>
           </button>
 
           <!-- GitHub Link -->
