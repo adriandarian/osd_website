@@ -11,10 +11,6 @@ badge: new
 
 Welcome to OpenSeadragon! This powerful JavaScript library enables seamless visualization of high-resolution zoomable images. Whether you're building a digital archive, an image gallery, or a scientific visualization tool, OpenSeadragon provides the performance and flexibility you need.
 
-::alert{type="tip" title="New to OpenSeadragon?"}
-This guide will walk you through installation and creating your first viewer in just a few minutes!
-::
-
 ## Quick Installation
 
 Choose your preferred installation method:
