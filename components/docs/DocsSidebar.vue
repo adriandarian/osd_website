@@ -262,20 +262,13 @@ const handleNavigate = () => {
   @apply absolute left-0 top-1/2 h-4 w-0.5 -translate-y-1/2 bg-blue-600 dark:bg-blue-400;
 }
 
-/* Compact scrollbar */
+/* Hide scrollbar */
+.docs-sidebar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
 .docs-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.docs-sidebar::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-.docs-sidebar::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-gray-300 dark:bg-gray-700;
-}
-
-.docs-sidebar::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-600;
+  display: none; /* Chrome, Safari, Opera */
 }
 </style>

@@ -18,31 +18,24 @@
   min-height: 100vh;
 }
 
-/* Apply text shadow for better readability over bubbles */
-:deep(p),
-:deep(h1),
-:deep(h2),
-:deep(h3),
-:deep(h4),
-:deep(h5),
-:deep(h6),
-:deep(li),
-:deep(a:not(.button):not(.btn)),
-:deep(span:not([class*='bg-'])) {
-  text-shadow: 0 0 12px rgba(var(--vp-c-bg-rgb), 0.95),
-               0 0 8px rgba(var(--vp-c-bg-rgb), 0.9),
-               0 0 4px rgba(var(--vp-c-bg-rgb), 0.85),
-               0 1px 2px rgba(var(--vp-c-bg-rgb), 0.8);
+/* Text shadow for readability - only on pages without solid backgrounds */
+:deep(.vp-doc p),
+:deep(.vp-doc h1),
+:deep(.vp-doc h2),
+:deep(.vp-doc h3),
+:deep(.vp-doc h4),
+:deep(.vp-doc h5),
+:deep(.vp-doc h6),
+:deep(.vp-doc li) {
+  position: relative;
 }
 
-/* Make headings even more prominent */
-:deep(h1),
-:deep(h2),
-:deep(h3) {
-  text-shadow: 0 0 16px rgba(var(--vp-c-bg-rgb), 1),
-               0 0 12px rgba(var(--vp-c-bg-rgb), 0.95),
-               0 0 8px rgba(var(--vp-c-bg-rgb), 0.9),
-               0 2px 4px rgba(var(--vp-c-bg-rgb), 0.85);
+/* Subtle text glow for homepage/landing pages without backgrounds */
+:deep(.hero) p,
+:deep(.hero) h1,
+:deep(.hero) h2 {
+  text-shadow: 0 2px 8px rgba(var(--vp-c-bg-rgb), 0.6),
+               0 1px 4px rgba(var(--vp-c-bg-rgb), 0.5);
 }
 </style>
 

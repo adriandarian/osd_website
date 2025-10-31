@@ -59,7 +59,7 @@
         <!-- Sidebar Navigation (Left) -->
         <aside
           class="docs-sidebar-left sticky top-16 left-0 z-20 hidden h-[calc(100vh-4rem)] w-72 shrink-0 overflow-y-auto lg:block self-start"
-          style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-soft);"
+          style="border-right: 1px solid var(--vp-c-divider);"
         >
           <nav class="px-5 py-8">
             <DocsSidebar />
@@ -95,8 +95,8 @@
         <Transition name="slide">
           <aside
             v-if="isMobileSidebarOpen"
-            class="fixed left-0 top-16 bottom-0 z-40 w-80 overflow-y-auto shadow-xl lg:hidden"
-            style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-alt);"
+            class="docs-mobile-sidebar fixed left-0 top-16 bottom-0 z-40 w-80 overflow-y-auto shadow-xl lg:hidden"
+            style="border-right: 1px solid var(--vp-c-divider);"
           >
             <nav class="px-4 py-6">
               <DocsSidebar @navigate="closeMobileSidebar" />
@@ -126,7 +126,7 @@
         <!-- Table of Contents (Right) -->
         <aside
           class="docs-toc-right sticky top-16 right-0 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto xl:block self-start"
-          style="border-left: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-soft);"
+          style="border-left: 1px solid var(--vp-c-divider);"
         >
           <nav class="px-6 py-8">
             <DocsTableOfContents />
@@ -480,16 +480,50 @@ html {
 }
 
 /* Docs Layout Improvements */
-.docs-sidebar-left {
+.docs-sidebar-left,
+.docs-mobile-sidebar {
   box-shadow: 1px 0 0 0 var(--vp-c-divider);
+  background-color: rgba(var(--vp-c-bg-rgb), 0.92) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 20;
 }
 
 .docs-toc-right {
   box-shadow: -1px 0 0 0 var(--vp-c-divider);
+  background-color: rgba(var(--vp-c-bg-rgb), 0.92) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 20;
 }
 
 .docs-main-content {
-  background-color: var(--vp-c-bg);
+  background-color: rgba(var(--vp-c-bg-rgb), 0.88) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 10;
+}
+
+/* Header with glassmorphism */
+.vp-header {
+  background-color: rgba(var(--vp-c-bg-rgb), 0.95) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--vp-c-divider);
+  position: relative;
+  z-index: 50;
+}
+
+/* Footer above bubbles */
+.vp-footer {
+  position: relative;
+  z-index: 10;
+  background-color: rgba(var(--vp-c-bg-rgb), 0.92) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 /* Smooth scrolling for sidebars */

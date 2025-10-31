@@ -172,78 +172,27 @@ const drawDots = () => {
   // Sort bubbles by size (smaller in back, larger in front for depth)
   const sortedDots = [...dots.value].sort((a, b) => a.radius - b.radius)
   
-  // Set blend mode once for all bubbles (major perf gain)
-  ctx.value.globalCompositeOperation = 'screen'
-  
+  // Draw simple, highly visible bubbles for testing
   sortedDots.forEach(dot => {
-    const cacheKey = `${dot.radius}-${isDark ? 'dark' : 'light'}`
-    
-    // Use cached gradient or create new one
-    let mainGradient = gradientCache.get(`main-${cacheKey}`)
-    if (!mainGradient || Math.random() < 0.01) { // Refresh occasionally
-      mainGradient = ctx.value!.createRadialGradient(
-        -dot.radius * 0.3, -dot.radius * 0.3, 0,
-        0, 0, dot.radius * 1.2
-      )
-      
-      if (isDark) {
-        mainGradient.addColorStop(0, 'rgba(180, 200, 255, 0.3)')
-        mainGradient.addColorStop(0.3, `${brandColor}50`)
-        mainGradient.addColorStop(0.7, `${brandColor}65`)
-        mainGradient.addColorStop(1, `${brandColor}40`)
-      } else {
-        mainGradient.addColorStop(0, 'rgba(220, 230, 255, 0.5)')
-        mainGradient.addColorStop(0.3, `${brandColor}60`)
-        mainGradient.addColorStop(0.7, `${brandColor}75`)
-        mainGradient.addColorStop(1, `${brandColor}50`)
-      }
-      gradientCache.set(`main-${cacheKey}`, mainGradient)
-    }
-    
-    // Draw main bubble with translate (faster than recalculating gradient positions)
     ctx.value!.save()
     ctx.value!.translate(dot.x, dot.y)
-    ctx.value!.globalAlpha = dot.opacity * 0.4
+    
+    // Very bright, solid bubble for visibility test
+    ctx.value!.globalAlpha = 0.8
+    ctx.value!.fillStyle = isDark ? 'rgba(100, 150, 255, 0.6)' : 'rgba(0, 100, 255, 0.5)'
     ctx.value!.beginPath()
     ctx.value!.arc(0, 0, dot.radius, 0, Math.PI * 2)
-    ctx.value!.fillStyle = mainGradient
     ctx.value!.fill()
     
-    // Combined rim + inner glow in one pass (perf optimization)
-    ctx.value!.globalCompositeOperation = 'hard-light'
-    ctx.value!.globalAlpha = dot.opacity * 0.7
-    ctx.value!.strokeStyle = isDark ? `${brandColor}cc` : `${brandColor}dd`
-    ctx.value!.lineWidth = Math.max(1, dot.radius * 0.12)
+    // Bright stroke
+    ctx.value!.strokeStyle = isDark ? 'rgba(150, 200, 255, 0.9)' : 'rgba(50, 150, 255, 0.8)'
+    ctx.value!.lineWidth = 2
     ctx.value!.stroke()
-    ctx.value!.globalCompositeOperation = 'screen'
     
-    // Single highlight (merged top + secondary for performance)
-    let highlightGradient = gradientCache.get(`highlight-${cacheKey}`)
-    if (!highlightGradient || Math.random() < 0.01) {
-      highlightGradient = ctx.value!.createRadialGradient(
-        -dot.radius * 0.4, -dot.radius * 0.4, 0,
-        -dot.radius * 0.4, -dot.radius * 0.4, dot.radius * 0.6
-      )
-      
-      if (isDark) {
-        highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
-        highlightGradient.addColorStop(0.2, 'rgba(200, 230, 255, 0.8)')
-        highlightGradient.addColorStop(0.5, 'rgba(180, 210, 255, 0.4)')
-        highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
-      } else {
-        highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
-        highlightGradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.9)')
-        highlightGradient.addColorStop(0.5, 'rgba(240, 245, 255, 0.6)')
-        highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
-      }
-      gradientCache.set(`highlight-${cacheKey}`, highlightGradient)
-    }
-    
-    ctx.value!.globalCompositeOperation = 'hard-light'
-    ctx.value!.globalAlpha = dot.opacity * 0.85
+    // White highlight
+    ctx.value!.fillStyle = 'rgba(255, 255, 255, 0.9)'
     ctx.value!.beginPath()
-    ctx.value!.arc(-dot.radius * 0.38, -dot.radius * 0.38, dot.radius * 0.45, 0, Math.PI * 2)
-    ctx.value!.fillStyle = highlightGradient
+    ctx.value!.arc(-dot.radius * 0.3, -dot.radius * 0.3, dot.radius * 0.3, 0, Math.PI * 2)
     ctx.value!.fill()
     
     ctx.value!.restore()
@@ -293,10 +242,11 @@ onUnmounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .dots-canvas {
