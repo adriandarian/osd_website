@@ -58,10 +58,10 @@
         <div class="flex relative">
         <!-- Sidebar Navigation (Left) -->
         <aside
-          class="sticky top-16 left-0 z-20 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto lg:block self-start"
-          style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-alt);"
+          class="docs-sidebar-left sticky top-16 left-0 z-20 hidden h-[calc(100vh-4rem)] w-72 shrink-0 overflow-y-auto lg:block self-start"
+          style="border-right: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-soft);"
         >
-          <nav class="px-4 py-6">
+          <nav class="px-5 py-8">
             <DocsSidebar />
           </nav>
         </aside>
@@ -105,10 +105,10 @@
         </Transition>
 
         <!-- Main Content Area -->
-        <main class="w-full flex-1 lg:px-0">
-          <div class="mx-auto max-w-3xl px-6 py-8 sm:px-8 lg:px-10 lg:py-10">
+        <main class="docs-main-content w-full flex-1 min-w-0">
+          <div class="mx-auto max-w-4xl px-8 py-10 lg:px-12 lg:py-12">
             <!-- Breadcrumb -->
-            <DocsBreadcrumb class="mb-6" />
+            <DocsBreadcrumb class="mb-8" />
 
             <!-- Page Content -->
             <article class="prose prose-base prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc">
@@ -116,19 +116,19 @@
             </article>
 
             <!-- Page Navigation (Prev/Next) -->
-            <DocsPageNav class="mt-12 pt-8" style="border-top: 1px solid var(--vp-c-divider)" />
+            <DocsPageNav class="mt-16 pt-10" style="border-top: 1px solid var(--vp-c-divider)" />
 
             <!-- Page Feedback -->
-            <DocsPageFeedback class="mt-8" />
+            <DocsPageFeedback class="mt-10" />
           </div>
         </main>
 
         <!-- Table of Contents (Right) -->
         <aside
-          class="sticky top-16 right-0 hidden h-[calc(100vh-4rem)] w-72 shrink-0 overflow-y-auto xl:block self-start"
-          style="border-left: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg);"
+          class="docs-toc-right sticky top-16 right-0 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto xl:block self-start"
+          style="border-left: 1px solid var(--vp-c-divider); background-color: var(--vp-c-bg-soft);"
         >
-          <nav class="px-6 py-6">
+          <nav class="px-6 py-8">
             <DocsTableOfContents />
           </nav>
         </aside>
@@ -477,5 +477,48 @@ html {
 
 .vp-footer-border {
   border-top: 1px solid var(--vp-c-divider);
+}
+
+/* Docs Layout Improvements */
+.docs-sidebar-left {
+  box-shadow: 1px 0 0 0 var(--vp-c-divider);
+}
+
+.docs-toc-right {
+  box-shadow: -1px 0 0 0 var(--vp-c-divider);
+}
+
+.docs-main-content {
+  background-color: var(--vp-c-bg);
+}
+
+/* Smooth scrolling for sidebars */
+.docs-sidebar-left,
+.docs-toc-right {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--vp-c-divider) transparent;
+}
+
+/* Custom scrollbar for webkit browsers */
+.docs-sidebar-left::-webkit-scrollbar,
+.docs-toc-right::-webkit-scrollbar {
+  width: 6px;
+}
+
+.docs-sidebar-left::-webkit-scrollbar-track,
+.docs-toc-right::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.docs-sidebar-left::-webkit-scrollbar-thumb,
+.docs-toc-right::-webkit-scrollbar-thumb {
+  background-color: var(--vp-c-divider);
+  border-radius: 3px;
+}
+
+.docs-sidebar-left::-webkit-scrollbar-thumb:hover,
+.docs-toc-right::-webkit-scrollbar-thumb:hover {
+  background-color: var(--vp-c-border);
 }
 </style>

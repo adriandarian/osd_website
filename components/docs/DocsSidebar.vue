@@ -1,79 +1,87 @@
 <template>
   <div class="docs-sidebar">
     <!-- Search box -->
-    <div class="mb-8">
+    <div class="mb-6">
       <DocsSearch />
     </div>
 
     <!-- Navigation sections -->
-    <div v-if="navigation" class="space-y-6">
-      <div v-for="section in navigation" :key="section.title" class="space-y-1.5">
-        <!-- Section title -->
-        <h3 class="vp-section-title mb-2 px-2.5">
-          {{ section.title }}
-        </h3>
+    <div v-if="navigation" class="space-y-2">
+      <div v-for="section in navigation" :key="section.title" class="sidebar-section">
+        <!-- Collapsible Section Header -->
+        <button
+          @click="toggleSection(section.title)"
+          class="section-header group flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-semibold transition-all duration-200"
+          :class="[
+            isExpanded(section.title) || hasActiveLink(section)
+              ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white'
+              : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800/50'
+          ]"
+        >
+          <span class="flex items-center gap-2">
+            <Icon
+              v-if="section.icon"
+              :name="section.icon"
+              class="h-4 w-4 shrink-0"
+            />
+            <span>{{ section.title }}</span>
+            <span class="ml-1 text-xs text-gray-500 dark:text-gray-400">({{ section.links.length }})</span>
+          </span>
+          
+          <Icon
+            name="heroicons:chevron-down"
+            class="h-4 w-4 shrink-0 transition-transform duration-200"
+            :class="{ 'rotate-180': isExpanded(section.title) || hasActiveLink(section) }"
+          />
+        </button>
 
-        <!-- Section links -->
-        <ul class="space-y-0.5">
-          <li v-for="link in section.links" :key="link._path">
-            <NuxtLink
-              :to="link._path"
-              class="group flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm font-medium transition-all duration-200 vp-sidebar-link"
-              :class="{ 'active': isActive(link._path) }"
-              @click="handleNavigate"
-            >
-              <span class="flex items-center gap-2">
-                <Icon
-                  v-if="link.icon"
-                  :name="link.icon"
-                  class="h-[17px] w-[17px] shrink-0 transition-colors"
-                  :class="[
-                    isActive(link._path)
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-gray-400 group-hover:text-gray-600 dark:text-gray-500 dark:group-hover:text-gray-300',
-                  ]"
-                />
-                <span>{{ link.title }}</span>
-              </span>
-              
-              <!-- Badge for new or beta items - HIDDEN FOR NOW -->
-              <!-- <span
-                v-if="link.badge"
-                class="ml-2 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider"
-                :class="getBadgeClass(link.badge)"
+        <!-- Collapsible Section Content -->
+        <Transition name="collapse">
+          <ul
+            v-show="isExpanded(section.title) || hasActiveLink(section)"
+            class="section-content mt-1 space-y-0.5 overflow-hidden pl-2"
+          >
+            <li v-for="link in section.links" :key="link._path">
+              <NuxtLink
+                :to="link._path"
+                class="group flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-all duration-150 vp-sidebar-link"
+                :class="{ 'active': isActive(link._path) }"
+                @click="handleNavigate"
               >
-                {{ link.badge }}
-              </span> -->
-            </NuxtLink>
-
-            <!-- Nested links (if any) -->
-            <ul v-if="link.children && link.children.length > 0" class="ml-3 mt-0.5 space-y-0.5">
-              <li v-for="child in link.children" :key="child._path">
-                <NuxtLink
-                  :to="child._path"
-                  class="block rounded-md px-2.5 py-1 text-xs transition-colors"
-                  :class="[
-                    isActive(child._path)
-                      ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white',
-                  ]"
-                  @click="handleNavigate"
+                <span class="flex items-center gap-2 truncate">
+                  <Icon
+                    v-if="link.icon"
+                    :name="link.icon"
+                    class="h-[15px] w-[15px] shrink-0 transition-colors"
+                    :class="[
+                      isActive(link._path)
+                        ? 'text-blue-600 dark:text-blue-400'
+                        : 'text-gray-400 group-hover:text-gray-600 dark:text-gray-500 dark:group-hover:text-gray-300',
+                    ]"
+                  />
+                  <span class="truncate">{{ link.title }}</span>
+                </span>
+                
+                <span
+                  v-if="link.badge"
+                  class="ml-2 shrink-0 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+                  :class="getBadgeClass(link.badge)"
                 >
-                  {{ child.title }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </li>
-        </ul>
+                  {{ link.badge }}
+                </span>
+              </NuxtLink>
+            </li>
+          </ul>
+        </Transition>
       </div>
     </div>
 
     <!-- Loading state -->
-    <div v-else class="space-y-4">
+    <div v-else class="space-y-3">
       <div
-        v-for="i in 3"
+        v-for="i in 5"
         :key="i"
-        class="h-8 animate-pulse rounded-md bg-gray-200 dark:bg-gray-800"
+        class="h-10 animate-pulse rounded-lg bg-gray-200 dark:bg-gray-800"
       />
     </div>
   </div>
@@ -82,6 +90,34 @@
 <script setup lang="ts">
 const emit = defineEmits(['navigate'])
 const route = useRoute()
+
+// Section icons and order mapping
+const sectionConfig: Record<string, { icon: string; order: number }> = {
+  'Getting Started': { icon: 'heroicons:rocket-launch', order: 1 },
+  'Configuration': { icon: 'heroicons:cog-6-tooth', order: 2 },
+  'Guides': { icon: 'heroicons:book-open', order: 3 },
+  'API Classes': { icon: 'heroicons:cube', order: 10 },
+  'API Members': { icon: 'heroicons:variable', order: 11 },
+  'API Methods': { icon: 'heroicons:code-bracket', order: 12 },
+  'API Types': { icon: 'heroicons:document-text', order: 13 },
+  'Examples': { icon: 'heroicons:beaker', order: 20 },
+}
+
+// Expanded sections state (store in localStorage)
+const expandedSections = ref<Set<string>>(new Set())
+
+// Initialize from localStorage
+onMounted(() => {
+  if (process.client) {
+    const stored = localStorage.getItem('docs-sidebar-expanded')
+    if (stored) {
+      expandedSections.value = new Set(JSON.parse(stored))
+    } else {
+      // Default: expand Getting Started
+      expandedSections.value.add('Getting Started')
+    }
+  }
+})
 
 // Fetch navigation structure from content
 const { data: navigation } = await useAsyncData('docs-navigation', async () => {
@@ -106,12 +142,40 @@ const { data: navigation } = await useAsyncData('docs-navigation', async () => {
     return acc
   }, {})
 
-  // Convert to navigation structure
-  return Object.entries(grouped).map(([title, links]) => ({
-    title,
-    links: links as any[],
-  }))
+  // Convert to navigation structure with icons and sort by order
+  return Object.entries(grouped)
+    .map(([title, links]) => ({
+      title,
+      icon: sectionConfig[title]?.icon || 'heroicons:folder',
+      order: sectionConfig[title]?.order || 99,
+      links: links as any[],
+    }))
+    .sort((a, b) => a.order - b.order)
 })
+
+// Check if section is expanded
+const isExpanded = (sectionTitle: string) => {
+  return expandedSections.value.has(sectionTitle)
+}
+
+// Check if section has active link
+const hasActiveLink = (section: any) => {
+  return section.links.some((link: any) => isActive(link._path))
+}
+
+// Toggle section
+const toggleSection = (sectionTitle: string) => {
+  if (expandedSections.value.has(sectionTitle)) {
+    expandedSections.value.delete(sectionTitle)
+  } else {
+    expandedSections.value.add(sectionTitle)
+  }
+  
+  // Save to localStorage
+  if (process.client) {
+    localStorage.setItem('docs-sidebar-expanded', JSON.stringify([...expandedSections.value]))
+  }
+}
 
 // Check if link is active
 const isActive = (path: string) => {
@@ -130,6 +194,18 @@ const getBadgeClass = (badge: string) => {
   if (lower === 'updated') {
     return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
   }
+  if (lower === 'class') {
+    return 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
+  }
+  if (lower === 'method') {
+    return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+  }
+  if (lower === 'member') {
+    return 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
+  }
+  if (lower === 'type') {
+    return 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400'
+  }
   return 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400'
 }
 
@@ -142,10 +218,64 @@ const handleNavigate = () => {
 <style scoped>
 .docs-sidebar {
   @apply text-sm;
+  scroll-behavior: smooth;
 }
 
-/* Smooth scrolling */
-.docs-sidebar {
-  scroll-behavior: smooth;
+/* Section styling */
+.sidebar-section {
+  @apply border-l-2 border-transparent;
+}
+
+.sidebar-section:has(.vp-sidebar-link.active) {
+  @apply border-blue-500 dark:border-blue-400;
+}
+
+.section-header {
+  @apply font-medium tracking-tight;
+}
+
+/* Collapse animation */
+.collapse-enter-active,
+.collapse-leave-active {
+  transition: all 0.3s ease;
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.collapse-enter-from,
+.collapse-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Link styling */
+.vp-sidebar-link {
+  @apply relative text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-white;
+}
+
+.vp-sidebar-link.active {
+  @apply bg-blue-50 text-blue-700 font-medium dark:bg-blue-900/20 dark:text-blue-400;
+}
+
+.vp-sidebar-link.active::before {
+  content: '';
+  @apply absolute left-0 top-1/2 h-4 w-0.5 -translate-y-1/2 bg-blue-600 dark:bg-blue-400;
+}
+
+/* Compact scrollbar */
+.docs-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.docs-sidebar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.docs-sidebar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-gray-300 dark:bg-gray-700;
+}
+
+.docs-sidebar::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-600;
 }
 </style>
