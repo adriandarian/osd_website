@@ -116,11 +116,6 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
-    /* Engineering notebook dot pattern */
-    background-image: radial-gradient(circle, var(--vp-c-divider) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-attachment: fixed;
   }
 
   html {

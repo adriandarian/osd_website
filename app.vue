@@ -1,5 +1,8 @@
 <template>
   <div>
+    <ClientOnly>
+      <UiInteractiveDots />
+    </ClientOnly>
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
