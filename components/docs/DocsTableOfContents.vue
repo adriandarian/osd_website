@@ -56,9 +56,13 @@
 <script setup lang="ts">
 const route = useRoute()
 
-// Get table of contents from current page
-const { data: page } = await useAsyncData(`toc-${route.path}`, () =>
-  queryContent(route.path).findOne()
+// Get table of contents from current page - watch for route changes
+const { data: page } = await useAsyncData(
+  `toc-${route.path}`,
+  () => queryContent(route.path).findOne(),
+  {
+    watch: [() => route.path]
+  }
 )
 
 const toc = computed(() => page.value?.body?.toc)
@@ -143,21 +147,41 @@ const scrollToTop = () => {
   }
 }
 
+// Setup observer function
+const setupObserver = () => {
+  if (!process.client) return
+  
+  const headings = document.querySelectorAll(
+    '.prose h2[id], .prose h3[id], .prose h4[id]'
+  )
+  
+  if (headings.length > 0 && observer) {
+    headings.forEach((heading) => {
+      observer?.observe(heading)
+    })
+  }
+}
+
 // Update observer when route changes
 watch(() => route.path, () => {
   activeId.value = ''
   if (process.client && observer) {
     observer.disconnect()
     
-    // Re-observe headings after content loads
-    nextTick(() => {
-      const headings = document.querySelectorAll(
-        '.prose h2[id], .prose h3[id], .prose h4[id]'
-      )
-      headings.forEach((heading) => {
-        observer?.observe(heading)
-      })
-    })
+    // Wait for content to fully render
+    setTimeout(() => {
+      setupObserver()
+    }, 100)
+  }
+})
+
+// Watch for page data changes to refresh observer
+watch(() => page.value, () => {
+  if (process.client && observer) {
+    observer.disconnect()
+    setTimeout(() => {
+      setupObserver()
+    }, 100)
   }
 })
 </script>
