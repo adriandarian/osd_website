@@ -39,6 +39,7 @@
 
     /* Background */
     --vp-c-bg: #ffffff;
+    --vp-c-bg-rgb: 255, 255, 255;
     --vp-c-bg-alt: #f6f6f7;
     --vp-c-bg-elv: #ffffff;
     --vp-c-bg-soft: #f6f6f7;
@@ -93,6 +94,7 @@
 
     /* Background (Dark) */
     --vp-c-bg: #1b1b1f;
+    --vp-c-bg-rgb: 27, 27, 31;
     --vp-c-bg-alt: #161618;
     --vp-c-bg-elv: #202127;
     --vp-c-bg-soft: #202127;

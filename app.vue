@@ -1,13 +1,50 @@
 <template>
-  <div>
+  <div class="relative">
     <ClientOnly>
       <UiInteractiveDots />
     </ClientOnly>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <div class="content-wrapper">
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* Apply text shadow for better readability over bubbles */
+:deep(p),
+:deep(h1),
+:deep(h2),
+:deep(h3),
+:deep(h4),
+:deep(h5),
+:deep(h6),
+:deep(li),
+:deep(a:not(.button):not(.btn)),
+:deep(span:not([class*='bg-'])) {
+  text-shadow: 0 0 12px rgba(var(--vp-c-bg-rgb), 0.95),
+               0 0 8px rgba(var(--vp-c-bg-rgb), 0.9),
+               0 0 4px rgba(var(--vp-c-bg-rgb), 0.85),
+               0 1px 2px rgba(var(--vp-c-bg-rgb), 0.8);
+}
+
+/* Make headings even more prominent */
+:deep(h1),
+:deep(h2),
+:deep(h3) {
+  text-shadow: 0 0 16px rgba(var(--vp-c-bg-rgb), 1),
+               0 0 12px rgba(var(--vp-c-bg-rgb), 0.95),
+               0 0 8px rgba(var(--vp-c-bg-rgb), 0.9),
+               0 2px 4px rgba(var(--vp-c-bg-rgb), 0.85);
+}
+</style>
 
 <script setup lang="ts">
 // GitHub Pages SPA support - handle redirects from 404.html
