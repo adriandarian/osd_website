@@ -59,16 +59,18 @@
 
     <!-- Main docs container -->
     <div class="flex-1">
-      <div class="mx-auto max-w-8xl">
-        <div class="flex relative">
+      <div class="mx-auto max-w-[1600px]">
+        <div class="flex relative justify-center">
         <!-- Sidebar Navigation (Left) -->
         <aside
-          class="docs-sidebar-left sticky top-16 left-0 z-20 hidden h-[calc(100vh-4rem)] w-72 shrink-0 overflow-y-auto lg:block self-start"
+          class="docs-sidebar-left z-20 hidden w-64 shrink-0 lg:block"
           style="border-right: 1px solid var(--vp-c-divider);"
         >
-          <nav class="px-5 py-8">
-            <DocsSidebar />
-          </nav>
+          <div class="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+            <nav class="px-5 py-8">
+              <DocsSidebar />
+            </nav>
+          </div>
         </aside>
 
         <!-- Mobile Sidebar Toggle -->
@@ -110,32 +112,34 @@
         </Transition>
 
         <!-- Main Content Area -->
-        <main class="w-full flex-1 min-w-0">
-          <div class="mx-auto max-w-4xl px-8 py-10 lg:px-12 lg:py-12">
+        <main class="flex-1 min-w-0 min-h-screen max-w-[900px]">
+          <div class="py-10 lg:py-12">
             <!-- Breadcrumb -->
-            <DocsBreadcrumb class="mb-8" />
+            <DocsBreadcrumb class="mb-8 px-8 lg:px-12" />
 
             <!-- Page Content -->
-            <article class="docs-content-card prose prose-base prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc">
+            <article class="docs-content-card prose prose-base prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc mx-8 lg:mx-12">
               <slot />
             </article>
 
             <!-- Page Navigation (Prev/Next) -->
-            <DocsPageNav class="docs-content-card mt-16 pt-10" style="border-top: 1px solid var(--vp-c-divider)" />
+            <DocsPageNav class="docs-content-card mt-16 pt-10 mx-8 lg:mx-12" style="border-top: 1px solid var(--vp-c-divider)" />
 
             <!-- Page Feedback -->
-            <DocsPageFeedback class="docs-content-card mt-10" />
+            <DocsPageFeedback class="docs-content-card mt-10 mx-8 lg:mx-12" />
           </div>
         </main>
 
         <!-- Table of Contents (Right) -->
         <aside
-          class="docs-toc-right sticky top-16 right-0 hidden h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto xl:block self-start"
+          class="docs-toc-right z-20 hidden w-60 shrink-0 xl:block"
           style="border-left: 1px solid var(--vp-c-divider);"
         >
-          <nav class="px-6 py-8">
-            <DocsTableOfContents />
-          </nav>
+          <div class="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+            <nav class="px-6 py-8">
+              <DocsTableOfContents />
+            </nav>
+          </div>
         </aside>
       </div>
     </div>
@@ -498,6 +502,7 @@ html {
   -webkit-backdrop-filter: blur(8px);
   position: relative;
   z-index: 20;
+  min-height: 100vh;
 }
 
 .docs-toc-right {
@@ -507,6 +512,13 @@ html {
   -webkit-backdrop-filter: blur(8px);
   position: relative;
   z-index: 20;
+  min-height: 100vh;
+}
+
+/* Ensure sidebars stretch full height */
+.docs-sidebar-left > div,
+.docs-toc-right > div {
+  will-change: transform;
 }
 
 /* Content cards - only blur the actual content areas */
@@ -540,32 +552,32 @@ html {
 }
 
 /* Smooth scrolling for sidebars */
-.docs-sidebar-left,
-.docs-toc-right {
+.docs-sidebar-left > div,
+.docs-toc-right > div {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: var(--vp-c-divider) transparent;
 }
 
 /* Custom scrollbar for webkit browsers */
-.docs-sidebar-left::-webkit-scrollbar,
-.docs-toc-right::-webkit-scrollbar {
+.docs-sidebar-left > div::-webkit-scrollbar,
+.docs-toc-right > div::-webkit-scrollbar {
   width: 6px;
 }
 
-.docs-sidebar-left::-webkit-scrollbar-track,
-.docs-toc-right::-webkit-scrollbar-track {
+.docs-sidebar-left > div::-webkit-scrollbar-track,
+.docs-toc-right > div::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.docs-sidebar-left::-webkit-scrollbar-thumb,
-.docs-toc-right::-webkit-scrollbar-thumb {
+.docs-sidebar-left > div::-webkit-scrollbar-thumb,
+.docs-toc-right > div::-webkit-scrollbar-thumb {
   background-color: var(--vp-c-divider);
   border-radius: 3px;
 }
 
-.docs-sidebar-left::-webkit-scrollbar-thumb:hover,
-.docs-toc-right::-webkit-scrollbar-thumb:hover {
+.docs-sidebar-left > div::-webkit-scrollbar-thumb:hover,
+.docs-toc-right > div::-webkit-scrollbar-thumb:hover {
   background-color: var(--vp-c-border);
 }
 </style>
