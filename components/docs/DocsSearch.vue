@@ -3,11 +3,11 @@
     <!-- Search Button -->
     <button
       @click="open"
-      class="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 bg-transparent border border-gray-200 dark:border-gray-700 rounded-md hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-all"
+      class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 bg-transparent border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-all min-w-[240px]"
     >
       <Icon name="heroicons:magnifying-glass" class="w-4 h-4 text-gray-400" />
       <span class="flex-1 text-left text-gray-500 dark:text-gray-500">Search docs...</span>
-      <kbd class="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-gray-500 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
+      <kbd class="hidden xl:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-gray-500 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
         <span v-if="isMac">⌘</span>
         <span v-else>Ctrl</span>
         <span>K</span>

@@ -25,7 +25,12 @@
           </nav>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-3">
+          <!-- Search Bar (only on docs pages) -->
+          <div v-if="isDocsRoute" class="hidden lg:block">
+            <DocsSearch />
+          </div>
+
           <!-- Theme Toggle -->
           <button 
             @click="toggleColorMode" 
@@ -250,6 +255,11 @@ const closeMobileSidebar = () => {
 const route = useRoute()
 watch(() => route.path, () => {
   closeMobileSidebar()
+})
+
+// Check if we're on a docs route
+const isDocsRoute = computed(() => {
+  return route.path.startsWith('/docs')
 })
 </script>
 

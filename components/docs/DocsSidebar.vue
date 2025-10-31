@@ -1,10 +1,5 @@
 <template>
   <div class="docs-sidebar">
-    <!-- Search box -->
-    <div class="mb-6">
-      <DocsSearch />
-    </div>
-
     <!-- Navigation sections -->
     <div v-if="navigation" class="space-y-2">
       <div v-for="section in navigation" :key="section.title" class="sidebar-section">
