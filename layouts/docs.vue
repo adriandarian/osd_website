@@ -110,21 +110,21 @@
         </Transition>
 
         <!-- Main Content Area -->
-        <main class="docs-main-content w-full flex-1 min-w-0">
+        <main class="w-full flex-1 min-w-0">
           <div class="mx-auto max-w-4xl px-8 py-10 lg:px-12 lg:py-12">
             <!-- Breadcrumb -->
             <DocsBreadcrumb class="mb-8" />
 
             <!-- Page Content -->
-            <article class="prose prose-base prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc">
+            <article class="docs-content-card prose prose-base prose-headings:scroll-mt-20 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-code:font-medium prose-code:text-sm max-w-none vp-doc">
               <slot />
             </article>
 
             <!-- Page Navigation (Prev/Next) -->
-            <DocsPageNav class="mt-16 pt-10" style="border-top: 1px solid var(--vp-c-divider)" />
+            <DocsPageNav class="docs-content-card mt-16 pt-10" style="border-top: 1px solid var(--vp-c-divider)" />
 
             <!-- Page Feedback -->
-            <DocsPageFeedback class="mt-10" />
+            <DocsPageFeedback class="docs-content-card mt-10" />
           </div>
         </main>
 
@@ -493,35 +493,38 @@ html {
 .docs-sidebar-left,
 .docs-mobile-sidebar {
   box-shadow: 1px 0 0 0 var(--vp-c-divider);
-  background-color: rgba(var(--vp-c-bg-rgb), 0.92) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: rgba(var(--vp-c-bg-rgb), 0.85) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   position: relative;
   z-index: 20;
 }
 
 .docs-toc-right {
   box-shadow: -1px 0 0 0 var(--vp-c-divider);
-  background-color: rgba(var(--vp-c-bg-rgb), 0.92) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: rgba(var(--vp-c-bg-rgb), 0.85) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   position: relative;
   z-index: 20;
 }
 
-.docs-main-content {
-  background-color: rgba(var(--vp-c-bg-rgb), 0.88) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+/* Content cards - only blur the actual content areas */
+.docs-content-card {
+  background-color: rgba(var(--vp-c-bg-rgb), 0.75) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 12px;
+  padding: 2rem;
   position: relative;
   z-index: 10;
 }
 
 /* Header with glassmorphism */
 .vp-header {
-  background-color: rgba(var(--vp-c-bg-rgb), 0.95) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(var(--vp-c-bg-rgb), 0.90) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--vp-c-divider);
   position: relative;
   z-index: 50;
@@ -531,9 +534,9 @@ html {
 .vp-footer {
   position: relative;
   z-index: 10;
-  background-color: rgba(var(--vp-c-bg-rgb), 0.92) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: rgba(var(--vp-c-bg-rgb), 0.85) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* Smooth scrolling for sidebars */
