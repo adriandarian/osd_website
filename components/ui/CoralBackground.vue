@@ -183,14 +183,14 @@ const createCorals = () => {
     const baseX = (i / floorSections) * rect.width
     
     // Multiple coral at each position - create layers
-    // Position them near the bottom so they grow upward
+    // Position bases at the bottom edge so tops grow upward into view
     for (let j = 0; j < 4; j++) {
       positions.push({
         x: baseX + (Math.random() - 0.5) * 60,
-        y: actualBottom - Math.random() * 50, // Position at bottom, slight variation
+        y: actualBottom - Math.random() * 20, // Base near bottom edge, slight variation
         count: 1,
         spread: 35,
-        sizeMultiplier: 0.7 + Math.random() * 0.9
+        sizeMultiplier: 1.2 + Math.random() * 0.8 // Larger coral for more visible tops
       })
     }
   }
@@ -199,10 +199,10 @@ const createCorals = () => {
   for (let i = 0; i < 100; i++) {
     positions.push({
       x: Math.random() * rect.width,
-      y: floorStart + Math.random() * floorZoneHeight,
+      y: actualBottom - Math.random() * 80, // Position in visible bottom area
       count: 1,
       spread: 50,
-      sizeMultiplier: 0.5 + Math.random() * 0.7
+      sizeMultiplier: 0.8 + Math.random() * 1.0 // Larger for visibility
     })
   }
   
@@ -212,10 +212,10 @@ const createCorals = () => {
   for (let i = 0; i < 60; i++) {
     positions.push({
       x: middleStart + Math.random() * (middleEnd - middleStart),
-      y: floorStart + Math.random() * floorZoneHeight,
+      y: actualBottom - Math.random() * 100, // Position in bottom area with coral tops visible
       count: 1,
       spread: 40,
-      sizeMultiplier: 0.6 + Math.random() * 0.8
+      sizeMultiplier: 0.9 + Math.random() * 0.9 // Larger for better visibility
     })
   }
   

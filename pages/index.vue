@@ -117,26 +117,18 @@
 
     <!-- CTA Section -->
     <section class="container py-24 md:py-32">
-      <div class="group mx-auto flex max-w-[980px] flex-col items-center gap-4 rounded-xl border p-10 text-center shadow-lg transition-all hover:shadow-xl" style="border-color: var(--vp-c-brand-soft); background: linear-gradient(135deg, var(--vp-c-brand-soft) 0%, var(--vp-c-bg-soft) 100%)">
-        <h2 class="text-3xl font-bold leading-tight tracking-tighter md:text-4xl" style="color: var(--vp-c-text-1)">
+      <div class="group cta-card">
+        <h2 class="cta-title">
           Ready to get started?
         </h2>
-        <p class="max-w-[600px] text-lg" style="color: var(--vp-c-text-2)">
+        <p class="cta-description">
           Try OpenSeadragon in our interactive playground or dive into the documentation.
         </p>
-        <div class="flex flex-wrap gap-4 mt-4">
-          <NuxtLink 
-            to="/playground" 
-            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none h-11 px-8"
-            style="background-color: var(--vp-c-brand-1); color: white"
-          >
+        <div class="cta-buttons">
+          <NuxtLink to="/playground" class="btn btn-primary">
             Try Playground
           </NuxtLink>
-          <NuxtLink 
-            to="/docs" 
-            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none border h-11 px-8"
-            style="border-color: var(--vp-c-divider); background-color: var(--vp-c-bg); color: var(--vp-c-text-1)"
-          >
+          <NuxtLink to="/docs" class="btn btn-secondary">
             Read Docs
           </NuxtLink>
         </div>
@@ -154,3 +146,68 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 </script>
+
+<style scoped>
+/* CTA Card */
+.cta-card {
+  @apply mx-auto flex max-w-[980px] flex-col items-center gap-4 rounded-xl border p-10 text-center shadow-lg transition-all hover:shadow-xl;
+  border-color: var(--vp-c-brand-1);
+  background: rgba(var(--vp-c-bg-rgb), 0.85);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 2;
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--vp-c-brand-soft) 0%, var(--vp-c-bg-soft) 100%);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.cta-title {
+  @apply text-3xl font-bold leading-tight tracking-tighter md:text-4xl;
+  color: var(--vp-c-text-1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.cta-description {
+  @apply max-w-[600px] text-lg;
+  color: var(--vp-c-text-1);
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  @apply flex flex-wrap gap-4 mt-4;
+}
+
+/* Button Styles */
+.btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-all;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  @apply disabled:opacity-50 disabled:pointer-events-none h-11 px-8;
+}
+
+.btn-primary {
+  background-color: var(--vp-c-brand-1);
+  color: white;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  @apply border;
+  border-color: var(--vp-c-divider);
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+}
+
+.btn-secondary:hover {
+  background-color: var(--vp-c-bg-soft);
+}
+</style>
