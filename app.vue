@@ -1,8 +1,14 @@
 <template>
-  <div class="relative">
-    <ClientOnly>
-      <UiInteractiveDots />
-    </ClientOnly>
+  <div class="app-container">
+    <div class="ocean-background-wrapper">
+      <ClientOnly>
+        <UiOceanFloor />
+        <UiOceanElements />
+        <UiCoralBackground />
+        <UiInteractiveDots />
+        <UiMarineParticles />
+      </ClientOnly>
+    </div>
     <div class="content-wrapper">
       <NuxtLayout>
         <NuxtPage />
@@ -12,6 +18,21 @@
 </template>
 
 <style scoped>
+.app-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.ocean-background-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .content-wrapper {
   position: relative;
   z-index: 1;
