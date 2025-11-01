@@ -198,15 +198,15 @@ const createElements = () => {
     })
   }
   
-  // Create fish swimming across (in viewport coordinates, these stay relative to view)
+  // Create fish swimming throughout the document (distributed across page height)
   fishes.value = []
-  const viewportHeight = window.innerHeight
-  for (let i = 0; i < 12; i++) {
+  const fishCount = Math.floor(rect.height / 150) // Scale fish count with page height
+  for (let i = 0; i < fishCount; i++) {
     const depth = Math.random() // 0 = far, 1 = close
     const colorIndex = Math.floor(Math.random() * fishColorPalette.length)
     fishes.value.push({
       x: Math.random() * rect.width,
-      y: 100 + Math.random() * (viewportHeight - 300),
+      y: 150 + Math.random() * (rect.height - 400), // Distributed throughout document
       size: 15 + depth * 25, // Larger fish closer
       speed: 0.3 + depth * 0.5,
       direction: Math.random() > 0.5 ? 1 : -1,
@@ -353,13 +353,22 @@ const updateAndDraw = () => {
     ray.fadePhase += ray.fadeSpeed * 0.01
   })
   
-  // Update and draw fish (these stay in viewport, moving relative to view)
+  // Translate canvas for document-positioned elements (fish and seaweed)
+  ctx.value.save()
+  ctx.value.translate(0, -scrollY.value)
+  
+  // Update and draw fish (document-positioned with culling)
   fishes.value.forEach(fish => {
-    // Move fish
+    // Check if fish is near viewport
+    if (fish.y < viewportTop - buffer || fish.y > viewportBottom + buffer) {
+      return
+    }
+    
+    // Move fish horizontally
     fish.x += fish.speed * fish.direction
     fish.swayPhase += 0.05
     
-    // Wrap around screen
+    // Wrap around screen width
     if (fish.direction > 0 && fish.x > rect.width + fish.size * 2) {
       fish.x = -fish.size * 2
     } else if (fish.direction < 0 && fish.x < -fish.size * 2) {
@@ -368,10 +377,6 @@ const updateAndDraw = () => {
     
     drawFish(fish)
   })
-  
-  // Translate canvas for seaweed (document-positioned)
-  ctx.value.save()
-  ctx.value.translate(0, -scrollY.value)
   
   // Update and draw seaweed with culling
   seaweeds.value.forEach(seaweed => {
