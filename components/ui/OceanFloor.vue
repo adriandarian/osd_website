@@ -130,7 +130,7 @@ const createFloorElements = () => {
   terrainLayers.value = []
   cliffs.value = []
   
-  const footerHeight = 200
+  const footerHeight = 80 // Reduced to match compact horizontal footer
   const actualBottom = rect.height - footerHeight
   const terrainZoneHeight = rect.height * 0.25
   const terrainStart = actualBottom - terrainZoneHeight

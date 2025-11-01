@@ -59,83 +59,33 @@
 
     <!-- Footer -->
     <footer class="border-t vp-footer">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <!-- About Section -->
-          <div class="space-y-4">
-            <div class="flex items-center space-x-2.5">
-              <img src="/logo.png" alt="OpenSeadragon" class="h-8 w-8" />
-              <span class="text-lg font-bold">OpenSeadragon</span>
-            </div>
-            <p class="text-sm vp-footer-text">
-              An open-source, web-based viewer for high-resolution zoomable images, implemented in pure JavaScript.
-            </p>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+          <!-- Copyright & Legal -->
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2">
+            <span class="vp-footer-text text-xs">© {{ new Date().getFullYear() }} OpenSeadragon</span>
+            <NuxtLink to="/license" class="vp-footer-link hover:underline text-xs">BSD-3-Clause License</NuxtLink>
           </div>
 
-          <!-- Documentation Links -->
-          <div class="space-y-4">
-            <h3 class="text-sm font-semibold uppercase tracking-wider vp-footer-heading">Documentation</h3>
-            <ul class="space-y-3">
-              <li>
-                <NuxtLink to="/docs/installation" class="text-sm vp-footer-link">Installation</NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/docs/setup" class="text-sm vp-footer-link">Setup</NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/docs/configuration" class="text-sm vp-footer-link">Configuration</NuxtLink>
-              </li>
-            </ul>
-          </div>
+          <!-- Community & Support Links -->
+          <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
+            <a href="https://github.com/openseadragon/openseadragon/discussions" target="_blank" rel="noopener noreferrer" class="vp-footer-link hover:underline">Community Discussions</a>
+            <a href="https://github.com/openseadragon/openseadragon/issues" target="_blank" rel="noopener noreferrer" class="vp-footer-link hover:underline">Report a Bug</a>
+            <a href="https://github.com/openseadragon/openseadragon/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="vp-footer-link hover:underline">Contributing</a>
+            <a href="https://github.com/openseadragon/openseadragon/releases" target="_blank" rel="noopener noreferrer" class="vp-footer-link hover:underline">Releases</a>
+          </nav>
 
-          <!-- Resources Links -->
-          <div class="space-y-4">
-            <h3 class="text-sm font-semibold uppercase tracking-wider vp-footer-heading">Resources</h3>
-            <ul class="space-y-3">
-              <li>
-                <NuxtLink to="/examples" class="text-sm vp-footer-link">Examples</NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/playground" class="text-sm vp-footer-link">Playground</NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/plugins" class="text-sm vp-footer-link">Plugins</NuxtLink>
-              </li>
-              <li>
-                <a href="https://github.com/openseadragon/openseadragon/discussions" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link">Community</a>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Connect Links -->
-          <div class="space-y-4">
-            <h3 class="text-sm font-semibold uppercase tracking-wider vp-footer-heading">Connect</h3>
-            <ul class="space-y-3">
-              <li>
-                <a href="https://github.com/openseadragon/openseadragon" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link inline-flex items-center gap-2">
-                  <Icon name="mdi:github" class="h-4 w-4" />
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/openseadragon/openseadragon/issues" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link">Report Issues</a>
-              </li>
-              <li>
-                <a href="https://github.com/openseadragon/openseadragon/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link">Contributing</a>
-              </li>
-              <li>
-                <a href="https://github.com/openseadragon/openseadragon/releases" target="_blank" rel="noopener noreferrer" class="text-sm vp-footer-link">Releases</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Bottom Bar -->
-        <div class="mt-12 pt-8 border-t vp-footer-border">
-          <div class="flex justify-center items-center">
-            <p class="text-sm vp-footer-text">
-              © {{ new Date().getFullYear() }} OpenSeadragon. Released under the <NuxtLink to="/license" class="vp-footer-link">BSD-3-Clause License</NuxtLink>.
-            </p>
+          <!-- Social Icons -->
+          <div class="flex items-center gap-3">
+            <a href="https://github.com/openseadragon/openseadragon" target="_blank" rel="noopener noreferrer" class="vp-footer-link hover:opacity-70 transition-opacity" aria-label="GitHub Repository">
+              <Icon name="mdi:github" class="h-5 w-5" />
+            </a>
+            <a href="https://discord.gg/tRJBedam8G" target="_blank" rel="noopener noreferrer" class="vp-footer-link hover:opacity-70 transition-opacity" aria-label="Discord Community">
+              <Icon name="mdi:discord" class="h-5 w-5" />
+            </a>
+            <a href="https://twitter.com/openseadragon" target="_blank" rel="noopener noreferrer" class="vp-footer-link hover:opacity-70 transition-opacity" aria-label="Twitter">
+              <Icon name="mdi:twitter" class="h-5 w-5" />
+            </a>
           </div>
         </div>
       </div>
