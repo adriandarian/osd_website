@@ -11,7 +11,7 @@ Modern, interactive website for OpenSeadragon built with Vue 3 and Nuxt.
 
 ### Installation
 
-```bash
+
 ```bash
 # Clone the repository
 git clone https://github.com/adriandarian/osd_website.git
@@ -22,7 +22,6 @@ bun install
 
 # Start development server
 bun run dev
-```
 ```
 
 Visit [http://localhost:3000](http://localhost:3000)
