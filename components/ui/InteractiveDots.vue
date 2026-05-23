@@ -33,6 +33,8 @@ const dots = ref<Array<{
 const mouseX = ref(0)
 const mouseY = ref(0)
 const time = ref(0)
+const scrollY = ref(0)
+const pageHeight = ref(0)
 const MIN_BUBBLE_SIZE = 3
 const MAX_BUBBLE_SIZE = 15
 const BUBBLE_DENSITY = 0.0003 // Bubbles per pixel
@@ -69,13 +71,27 @@ const createDots = () => {
   if (!canvas.value || !dotsContainer.value) return
   
   dots.value = []
-  const rect = dotsContainer.value.getBoundingClientRect()
+  
+  // Get full document height for scroll-aware positioning
+  pageHeight.value = Math.max(
+    document.body.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.clientHeight,
+    document.documentElement.scrollHeight,
+    document.documentElement.offsetHeight
+  )
+  
+  const rect = {
+    width: window.innerWidth,
+    height: pageHeight.value
+  }
+  
   const bubbleCount = Math.floor(rect.width * rect.height * BUBBLE_DENSITY)
   
-  // Create randomly distributed bubbles like in ocean water
+  // Create randomly distributed bubbles throughout the entire document height
   for (let i = 0; i < bubbleCount; i++) {
     const baseX = Math.random() * rect.width
-    const baseY = Math.random() * rect.height
+    const baseY = Math.random() * rect.height // Now spans entire document
     const baseRadius = MIN_BUBBLE_SIZE + Math.random() * (MAX_BUBBLE_SIZE - MIN_BUBBLE_SIZE)
     
     dots.value.push({
@@ -106,7 +122,17 @@ const lerp = (start: number, end: number, factor: number) => {
 const updateDots = () => {
   time.value += 0.016 // Approximately 60fps
   
+  // Calculate viewport bounds in document coordinates
+  const viewportTop = scrollY.value
+  const viewportBottom = scrollY.value + window.innerHeight
+  const buffer = 300
+  
   dots.value.forEach(dot => {
+    // Only update dots near the viewport for performance
+    if (dot.baseY < viewportTop - buffer || dot.baseY > viewportBottom + buffer) {
+      return
+    }
+    
     // Floating motion - bubbles drift slowly
     dot.wobblePhase += dot.wobbleSpeed * 0.02
     dot.floatOffsetX = Math.sin(dot.wobblePhase) * 15
@@ -117,8 +143,12 @@ const updateDots = () => {
     const floatingBaseY = dot.baseY + dot.floatOffsetY
     
     // Mouse interaction - bubbles pushed away like water displacement
-    const dx = mouseX.value - floatingBaseX
-    const dy = mouseY.value - floatingBaseY
+    // Adjust mouse coordinates for scroll position
+    const adjustedMouseX = mouseX.value
+    const adjustedMouseY = mouseY.value + scrollY.value
+    
+    const dx = adjustedMouseX - floatingBaseX
+    const dy = adjustedMouseY - floatingBaseY
     const distance = Math.sqrt(dx * dx + dy * dy)
     
     if (distance < INTERACTION_RADIUS) {
@@ -160,6 +190,11 @@ const drawDots = () => {
   const rect = dotsContainer.value.getBoundingClientRect()
   ctx.value.clearRect(0, 0, rect.width, rect.height)
   
+  // Calculate viewport bounds in document coordinates
+  const viewportTop = scrollY.value
+  const viewportBottom = scrollY.value + window.innerHeight
+  const buffer = 300
+  
   // Get computed colors - cache these
   const brandColor = getComputedStyle(document.documentElement)
     .getPropertyValue('--vp-c-brand-1').trim()
@@ -169,8 +204,15 @@ const drawDots = () => {
   // Detect if dark mode by checking background color luminance
   const isDark = bgColor.includes('#1') || bgColor.includes('rgb(27')
   
-  // Sort bubbles by size (smaller in back, larger in front for depth)
-  const sortedDots = [...dots.value].sort((a, b) => a.radius - b.radius)
+  // Translate canvas for document-positioned elements
+  ctx.value.save()
+  ctx.value.translate(0, -scrollY.value)
+  
+  // Filter and sort bubbles by size (smaller in back, larger in front for depth)
+  const visibleDots = dots.value.filter(dot => 
+    dot.baseY >= viewportTop - buffer && dot.baseY <= viewportBottom + buffer
+  )
+  const sortedDots = visibleDots.sort((a, b) => a.radius - b.radius)
   
   // Draw simple, highly visible bubbles for testing
   sortedDots.forEach(dot => {
@@ -198,6 +240,7 @@ const drawDots = () => {
     ctx.value!.restore()
   })
   
+  ctx.value.restore()
   ctx.value!.globalAlpha = 1
   ctx.value!.globalCompositeOperation = 'source-over'
 }
@@ -210,6 +253,10 @@ const handleMouseMove = (event: MouseEvent) => {
 const handleMouseLeave = () => {
   mouseX.value = -1000
   mouseY.value = -1000
+}
+
+const handleScroll = () => {
+  scrollY.value = window.scrollY || window.pageYOffset
 }
 
 const animateFrame = () => {
@@ -225,14 +272,17 @@ const handleResize = () => {
 onMounted(() => {
   initCanvas()
   animateFrame()
+  handleScroll()
   window.addEventListener('mousemove', handleMouseMove)
   window.addEventListener('mouseleave', handleMouseLeave)
+  window.addEventListener('scroll', handleScroll, { passive: true })
   window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   window.removeEventListener('mousemove', handleMouseMove)
   window.removeEventListener('mouseleave', handleMouseLeave)
+  window.removeEventListener('scroll', handleScroll)
   window.removeEventListener('resize', handleResize)
 })
 </script>

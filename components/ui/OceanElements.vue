@@ -38,15 +38,30 @@ interface LightRay {
   fadePhase: number
 }
 
+interface Bubble {
+  x: number
+  y: number
+  radius: number
+  speed: number
+  opacity: number
+  wobblePhase: number
+  wobbleSpeed: number
+  depth: number // For parallax effect
+  birthTime: number
+  maxAge: number
+}
+
 const oceanContainer = ref<HTMLDivElement | null>(null)
 const canvas = ref<HTMLCanvasElement | null>(null)
 const ctx = ref<CanvasRenderingContext2D | null>(null)
 const seaweeds = ref<Seaweed[]>([])
 const fishes = ref<Fish[]>([])
 const lightRays = ref<LightRay[]>([])
+const bubbles = ref<Bubble[]>([])
 const time = ref(0)
 const scrollY = ref(0)
 const pageHeight = ref(0)
+const bubbleSpawnTimer = ref(0)
 
 const seaweedColors = {
   dark: [
@@ -227,6 +242,9 @@ const createElements = () => {
       fadePhase: Math.random() * Math.PI * 2
     })
   }
+
+  // Initialize bubbles array (they'll be created dynamically as user scrolls)
+  bubbles.value = []
 }
 
 const drawSeaweed = (seaweed: Seaweed) => {
@@ -259,6 +277,65 @@ const drawSeaweed = (seaweed: Seaweed) => {
   }
   
   ctx.value.stroke()
+  ctx.value.restore()
+}
+
+const createBubble = (x: number, y: number) => {
+  const depth = Math.random() // 0 = far, 1 = close
+  bubbles.value.push({
+    x: x + (Math.random() - 0.5) * 100, // Slight random offset
+    y,
+    radius: 2 + depth * 8, // Larger bubbles closer
+    speed: 0.5 + depth * 1.5, // Faster bubbles closer
+    opacity: 0.1 + depth * 0.4, // More opaque bubbles closer
+    wobblePhase: Math.random() * Math.PI * 2,
+    wobbleSpeed: 0.02 + Math.random() * 0.03,
+    depth,
+    birthTime: time.value,
+    maxAge: 8 + Math.random() * 12 // Live for 8-20 seconds
+  })
+}
+
+const drawBubble = (bubble: Bubble) => {
+  if (!ctx.value) return
+  
+  const age = time.value - bubble.birthTime
+  const ageRatio = age / bubble.maxAge
+  
+  // Fade out near end of life
+  let opacity = bubble.opacity
+  if (ageRatio > 0.8) {
+    opacity *= (1 - (ageRatio - 0.8) / 0.2)
+  }
+  
+  if (opacity <= 0) return
+  
+  ctx.value.save()
+  
+  // Wobble effect
+  const wobbleX = Math.sin(bubble.wobblePhase) * 3
+  ctx.value.translate(bubble.x + wobbleX, bubble.y)
+  
+  // Create bubble gradient for more realistic look
+  const gradient = ctx.value.createRadialGradient(
+    -bubble.radius * 0.3, -bubble.radius * 0.3, 0,
+    0, 0, bubble.radius
+  )
+  gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.8})`)
+  gradient.addColorStop(0.3, `rgba(200, 230, 255, ${opacity * 0.4})`)
+  gradient.addColorStop(1, `rgba(100, 150, 200, ${opacity * 0.1})`)
+  
+  ctx.value.fillStyle = gradient
+  ctx.value.beginPath()
+  ctx.value.arc(0, 0, bubble.radius, 0, Math.PI * 2)
+  ctx.value.fill()
+  
+  // Add subtle highlight
+  ctx.value.fillStyle = `rgba(255, 255, 255, ${opacity * 0.3})`
+  ctx.value.beginPath()
+  ctx.value.arc(-bubble.radius * 0.3, -bubble.radius * 0.3, bubble.radius * 0.3, 0, Math.PI * 2)
+  ctx.value.fill()
+  
   ctx.value.restore()
 }
 
@@ -336,6 +413,7 @@ const updateAndDraw = () => {
   if (!ctx.value || !canvas.value || !oceanContainer.value) return
   
   time.value += 0.016
+  bubbleSpawnTimer.value += 0.016
   
   const rect = oceanContainer.value.getBoundingClientRect()
   ctx.value.clearRect(0, 0, rect.width, rect.height)
@@ -345,6 +423,30 @@ const updateAndDraw = () => {
   const viewportBottom = scrollY.value + window.innerHeight
   const buffer = 300
   
+  // Spawn bubbles periodically based on scroll activity and viewport
+  if (bubbleSpawnTimer.value > 0.3 + Math.random() * 0.5) { // Every 0.3-0.8 seconds
+    bubbleSpawnTimer.value = 0
+    
+    // Create bubbles at random positions within the viewport
+    const bubbleCount = 1 + Math.floor(Math.random() * 3) // 1-3 bubbles at once
+    for (let i = 0; i < bubbleCount; i++) {
+      const x = Math.random() * rect.width
+      const y = viewportBottom - 50 + Math.random() * 100 // Near bottom of viewport
+      createBubble(x, y)
+    }
+    
+    // Also spawn bubbles from seaweed areas occasionally
+    if (Math.random() < 0.4) {
+      seaweeds.value.forEach(seaweed => {
+        if (seaweed.y >= viewportTop - buffer && seaweed.y <= viewportBottom + buffer) {
+          if (Math.random() < 0.05) { // 5% chance per seaweed per spawn cycle
+            createBubble(seaweed.x, seaweed.y - 10)
+          }
+        }
+      })
+    }
+  }
+  
   // Draw light rays first (furthest back) - these stay in viewport
   drawLightRays()
   
@@ -353,9 +455,36 @@ const updateAndDraw = () => {
     ray.fadePhase += ray.fadeSpeed * 0.01
   })
   
-  // Translate canvas for document-positioned elements (fish and seaweed)
+  // Translate canvas for document-positioned elements (fish, seaweed, and bubbles)
   ctx.value.save()
   ctx.value.translate(0, -scrollY.value)
+  
+  // Update and draw bubbles (middle layer)
+  bubbles.value = bubbles.value.filter(bubble => {
+    const age = time.value - bubble.birthTime
+    
+    // Remove old bubbles
+    if (age > bubble.maxAge) {
+      return false
+    }
+    
+    // Check if bubble is near viewport
+    if (bubble.y < viewportTop - buffer || bubble.y > viewportBottom + buffer) {
+      return true // Keep but don't update/draw
+    }
+    
+    // Move bubble up with parallax effect
+    bubble.y -= bubble.speed * (0.5 + bubble.depth * 0.5)
+    bubble.wobblePhase += bubble.wobbleSpeed
+    
+    // Remove bubbles that float too high above viewport
+    if (bubble.y < viewportTop - 500) {
+      return false
+    }
+    
+    drawBubble(bubble)
+    return true
+  })
   
   // Update and draw fish (document-positioned with culling)
   fishes.value.forEach(fish => {
